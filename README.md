@@ -9,6 +9,12 @@
 curl -fsSL https://raw.githubusercontent.com/midoks/shell/refs/heads/main/tcp_syn_flood/install.sh| sh
 ```
 
+- 卸载
+
+```
+curl -fsSL https://raw.githubusercontent.com/midoks/shell/refs/heads/main/tcp_syn_flood/uninstall.sh| sh
+```
+
 - 命令
 ```
 mtsf look   -> 查看SYN_RECV连接
