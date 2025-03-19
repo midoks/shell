@@ -22,7 +22,7 @@ RUN_CMD(){
 	    DST_IP=$(echo $line | awk '{print $5}' | cut -d= -f2)
 	    SRC_PORT=$(echo $line | awk '{print $6}' | cut -d= -f2)
 	    DST_PORT=$(echo $line | awk '{print $7}' | cut -d= -f2)
-
+	    echo "line:$line"
 	    echo "SRC_IP:$SRC_IP,DST_IP:$DST_IP,SRC_PORT:$SRC_PORT,DST_PORT:$DST_PORT"
 
 	    # 获取连接的创建时间
