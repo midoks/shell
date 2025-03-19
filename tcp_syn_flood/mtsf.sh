@@ -31,6 +31,8 @@ RUN_CMD(){
 	    # 计算连接持续时间
 	    DURATION=$((CURRENT_TIME - CREATED))
 
+	    echo "DURATION:$DURATION"
+
 	    # 如果连接持续时间超过超时时间，则禁止该IP
 	    if [ $DURATION -ge $TIMEOUT ]; then
 	        echo "Banning $SRC_IP for $BAN_TIME seconds due to SYN_RECV timeout."
