@@ -52,6 +52,10 @@ MF_LOOK(){
 	watch -n 1 'netstat -an|grep SYN_RECV'
 }
 
+MF_LOOK_SS(){
+	ss -n state syn-recv -o
+}
+
 MF_LOOK_TIME(){
 	netstat -tnop | grep SYN_RECV | awk '{print $5,$9}'
 }
