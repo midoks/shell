@@ -52,6 +52,16 @@ MF_LOOK(){
 	watch -n 1 'netstat -an|grep SYN_RECV'
 }
 
+MF_LOOK_TIME(){
+	netstat -tnop | grep SYN_RECV | awk '{print $5,$9}'
+}
+
+# 简单配置优化
+MF_SIMPLE_OP(){
+	iptables -A INPUT -p tcp --syn -m limit --limit 5/s -j ACCEPT
+	iptables -A INPUT -p tcp --syn -j DROP
+}
+
 case "$1" in
     "run") RUN_CMD ;;
     'look') MF_LOOK ;;

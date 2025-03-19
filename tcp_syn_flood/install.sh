@@ -6,7 +6,8 @@ TIME=`date +"%Y_%m_%d_%H_%M_%S"`
 
 echo "time:$TIME"
 
-apt install -y net-tools
+which apt && apt install -y net-tools
+which apt && apt install -y conntrack
 
 if [ ! -f /usr/bin/mtsf ];then
 	wget -O /usr/bin/mtsf https://raw.githubusercontent.com/midoks/shell/refs/heads/main/tcp_syn_flood/mtsf.sh?t=${TIME}
