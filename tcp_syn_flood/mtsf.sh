@@ -56,6 +56,11 @@ MF_LOOK_TIME(){
 	netstat -tnop | grep SYN_RECV | awk '{print $5,$9}'
 }
 
+# 手动优化
+MF_HANDLE_OP(){
+	iptables -A INPUT -s 138.94.40.0/24 -j DROP
+}
+
 # 简单配置优化
 MF_SIMPLE_OP(){
 	iptables -A INPUT -p tcp --syn -m limit --limit 5/s -j ACCEPT
