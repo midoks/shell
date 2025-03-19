@@ -12,6 +12,11 @@ RUN_CMD(){
 
 	# 获取所有 SYN_RECV 状态的连接
 	conntrack -L -p tcp --state SYN_RECV | while read line; do
+		if [ "$line" ~ "conntrack-tools" ];then
+			echo $line
+			continue
+		fi
+
 	    # 提取连接信息
 	    SRC_IP=$(echo $line | awk '{print $4}' | cut -d= -f2)
 	    DST_IP=$(echo $line | awk '{print $5}' | cut -d= -f2)
