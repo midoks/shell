@@ -12,7 +12,7 @@ RUN_CMD(){
 
 	# 获取所有 SYN_RECV 状态的连接
 	conntrack -L -p tcp --state SYN_RECV | while read line; do
-		if [ "$line" ~= "conntrack-tools" ];then
+		if [[ "$line" =~ "conntrack-tools" ]];then
 			echo $line
 			continue
 		fi
