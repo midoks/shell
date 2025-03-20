@@ -92,6 +92,8 @@ MF_CONF_OPT(){
 	if [[ "$ulimit_n" -lt "65535" ]]; then
 		ulimit -n 65535
 		echo -e "${GREEN}ulimit -n 65535${CEND}"
+
+
 	fi
 
 	# 设置TCP优化参数
@@ -99,10 +101,38 @@ MF_CONF_OPT(){
 
 	# 接收和发送缓冲区大小
 	echo "设置接收和发送缓冲区大小..."
-	echo 16777216 > /proc/sys/net/core/rmem_max
-	echo 16777216 > /proc/sys/net/core/wmem_max
-	echo "4096 87380 16777216" > /proc/sys/net/ipv4/tcp_rmem
-	echo "4096 16384 16777216" > /proc/sys/net/ipv4/tcp_wmem
+	FIND_NC_rmem_max=`cat /etc/sysctl.conf | grep net.core.rmem_max`
+	if [ "$FIND_NC_rmem_max" == "" ];then
+		echo 16777216 > /proc/sys/net/core/rmem_max
+		echo "net.core.rmem_max = 16777216" >> /etc/sysctl.conf
+	else
+		echo "net.core.rmem_max exist!"
+	fi
+
+	FIND_NC_wmem_max=`cat /etc/sysctl.conf | grep net.core.wmem_max`
+	if [ "$FIND_NC_wmem_max" == "" ];then
+		echo 16777216 > /proc/sys/net/core/wmem_max
+		echo "net.core.wmem_max = 16777216" >> /etc/sysctl.conf
+	else
+		echo "net.core.wmem_max exist!"
+	fi
+
+	FIND_NI_tcp_rmem=`cat /etc/sysctl.conf | grep net.ipv4.tcp_rmem`
+	if [ "$FIND_NI_tcp_rmem" == "" ];then
+		echo "4096 87380 16777216" > /proc/sys/net/ipv4/tcp_rmem
+		echo "net.ipv4.tcp_rmem = 4096 87380 16777216" >> /etc/sysctl.conf
+	else
+		echo "net.ipv4.tcp_rmem exist!"
+	fi
+
+
+	FIND_NI_tcp_wmem=`cat /etc/sysctl.conf | grep net.ipv4.tcp_wmem`
+	if [ "$FIND_NI_tcp_wmem" == "" ];then
+		echo "4096 87380 16777216" > /proc/sys/net/ipv4/tcp_wmem
+		echo "net.ipv4.tcp_wmem = 4096 87380 16777216" >> /etc/sysctl.conf
+	else
+		echo "net.ipv4.tcp_wmem exist!"
+	fi
 
 	# 启用TCP窗口缩放和选择性确认
 	echo "启用TCP窗口缩放和选择性确认..."
