@@ -456,7 +456,7 @@ MF_UPDATE(){
 }
 
 MF_CRON_ADD(){
-
+	echo "debug"
 }
 
 case "$1" in
