@@ -63,8 +63,14 @@ MF_BAN_DO(){
 		fi
 	    echo "${IPTABLES_CMD} -A INPUT -s $SUBNET_IP -j DROP"
 	    ${IPTABLES_CMD} -A INPUT -s $SUBNET_IP -j DROP
+
+	    echo "${IPTABLES_CMD} -A OUTPUT -d $SUBNET_IP -j DROP"
+	    ${IPTABLES_CMD} -A OUTPUT -d $SUBNET_IP -j DROP
+
 	    # 5分钟后解封
 	    echo "iptables -D INPUT -s $SUBNET_IP -j DROP" | at now + 5 minutes
+	    echo "iptables -D OUTPUT -s $SUBNET_IP -j DROP" | at now + 5 minutes
+	    
 	    echo "${SUBNET_IP} 5分钟后解封"
 	else
 		echo "IP $SUBNET_IP 来自 $COUNTRY，已经封禁。"
@@ -86,8 +92,12 @@ MF_BAN_DO1(){
 		fi
 	    echo "${IPTABLES_CMD} -A INPUT -s $SUBNET_IP -j DROP"
 	    ${IPTABLES_CMD} -A INPUT -s $SUBNET_IP -j DROP
+
+	    echo "${IPTABLES_CMD} -A OUTPUT -d $SUBNET_IP -j DROP"
+	    ${IPTABLES_CMD} -A OUTPUT -d $SUBNET_IP -j DROP
 	    # 5分钟后解封
 	    echo "iptables -D INPUT -s $SUBNET_IP -j DROP" | at now + 1 minutes
+	    echo "iptables -D OUTPUT -s $SUBNET_IP -j DROP" | at now + 1 minutes
 	    echo "${SUBNET_IP} 1分钟后解封"
 	else
 		echo "IP $SUBNET_IP 来自 $COUNTRY，已经封禁。"
