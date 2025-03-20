@@ -97,7 +97,8 @@ RUN_CMD(){
 			IP_PREFIX_STR=`MF_GET_PRESTR $IP`
 
 			echo "IP_PREFIX_STR:$IP_PREFIX_STR"
-
+			NUMS=`netstat -an|grep SYN_RECV | grep $IP_PREFIX_STR | wc -l`
+			echo "NUMS:$NUMS"
 			# MF_BAN_DO $SUBNET_IP
 
 			# FIND_SUBNET_IP=`iptables -L -n | grep $SUBNET_IP`
