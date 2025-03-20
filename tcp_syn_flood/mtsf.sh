@@ -86,7 +86,7 @@ RUN_CMD(){
 	netstat -an | grep tcp | while read line; do
 		echo $line
 		SRC_IP=$(echo "$line" | awk '{print $5}' | cut -d= -f2)
-		# echo "SRC_IP:$SRC_IP"
+		echo "SRC_IP:$SRC_IP"
 
 		# 获取IP地址
 		IP=$(echo $SRC_IP | cut -d ':' -f 1)
