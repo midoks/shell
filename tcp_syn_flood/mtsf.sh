@@ -41,7 +41,7 @@ RUN_CMD(){
 
 		# 检查是否为目标国家
 		if [[ "$COUNTRY" != "CN" ]]; then
-		    echo "IP $IP 来自 $TARGET_COUNTRY，将被封禁5分钟。"
+		    echo "IP $IP 来自 $COUNTRY，将被封禁5分钟。"
 		    # 封禁IP地址
 		    iptables -A INPUT -s $IP -j DROP
 		    # 5分钟后解封
