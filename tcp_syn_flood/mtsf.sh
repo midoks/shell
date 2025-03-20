@@ -92,6 +92,10 @@ RUN_CMD(){
 		IP=$(echo $SRC_IP | cut -d ':' -f 1)
 		echo "IP:$IP"
 
+		if [[ "$IP" == "0.0.0.0" ]];then
+			continue
+		fi
+
 		COUNTRY=`geoiplookup $IP | awk -F ': ' '{print $2}' | awk -F ',' '{print $1}'`
 		echo "COUNTRY:$COUNTRY"
 
@@ -116,6 +120,19 @@ RUN_CMD(){
 			fi
 
 		else
+
+			IP_PREFIX_STR=`MF_GET_PRESTR $IP`
+
+			echo "IP_PREFIX_STR:$IP_PREFIX_STR"
+			NUMS=`netstat -an|grep tcp | grep $IP_PREFIX_STR | wc -l`
+			echo "NUMS:$NUMS"
+
+			# 规则1 , 138.94.192 同网段下超过2个，大概率为攻击方
+			if [[ "$NUMS" -gt 2 ]];then
+				MF_BAN_DO $SUBNET_IP
+			fi
+
+
 		    echo "IP $IP 来自 $COUNTRY，允许访问。"
 		fi
 	done
