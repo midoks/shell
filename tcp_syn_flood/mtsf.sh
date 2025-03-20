@@ -38,6 +38,7 @@ MF_GET_SUBNET(){
 
 	# 添加掩码
 	SUBNET="$NETWORK/$MASK"
+	echo $SUBNET
 }
 
 RUN_CMD(){
