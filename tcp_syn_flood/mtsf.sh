@@ -221,7 +221,7 @@ MF_CONF_OPT(){
 	echo "增加连接队列长度..."
 	FIND_NI_tcp_max_syn_backlog=`cat /etc/sysctl.conf | grep net.ipv4.tcp_max_syn_backlog`
 	if [ "$FIND_NI_tcp_max_syn_backlog" == "" ];then
-		echo 65535 > /proc/sys/net/core/tcp_max_syn_backlog
+		echo 65535 > /proc/sys/net/ipv4/tcp_max_syn_backlog
 		echo "net.ipv4.tcp_max_syn_backlog = 65535" >> /etc/sysctl.conf
 	else
 		echo "net.ipv4.tcp_max_syn_backlog exist!"
