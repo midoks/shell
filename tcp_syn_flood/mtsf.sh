@@ -110,18 +110,47 @@ MF_BAN_DO1(){
 	fi
 }
 
-RUN_CMD(){
-	# 设置超时时间（秒）
-	TIMEOUT=3
+RUN_CMD_SYN_RECV(){
+		netstat -an | grep SYN_RECV | while read line; do
+		# echo $line
+		SRC_IP=$(echo "$line" | awk '{print $5}' | cut -d= -f2)
+		# echo "SRC_IP:$SRC_IP"
 
-	# 设置禁止访问的时间（秒）
-	BAN_TIME=300
+		# 获取IP地址
+		IP=$(echo $SRC_IP | cut -d ':' -f 1)
+		echo "IP:$IP"
 
-	# 获取当前时间
-	CURRENT_TIME=$(date +%s)
+		COUNTRY=`geoiplookup $IP | awk -F ': ' '{print $2}' | awk -F ',' '{print $1}'`
+		echo "COUNTRY:$COUNTRY"
 
-	# 获取所有 SYN_RECV 状态的连接
-	# netstat -an | grep SYN_RECV | while read line; do
+		SUBNET_IP=`MF_GET_SUBNET $IP`
+		echo "SUBNET_IP:$SUBNET_IP"
+
+		# 检查是否为目标国家
+		if [[ "$COUNTRY" != "CN" ]]; then
+
+			# ss -n state syn-recv -o
+			# 判断重试次数
+
+			IP_PREFIX_STR=`MF_GET_PRESTR $IP`
+
+			echo "IP_PREFIX_STR:$IP_PREFIX_STR"
+			NUMS=`netstat -an|grep SYN_RECV | grep $IP_PREFIX_STR | wc -l`
+			echo "NUMS:$NUMS"
+
+			# 规则1 , 138.94.192 同网段下超过2个，大概率为攻击方
+			if [[ "$NUMS" -gt 2 ]];then
+				MF_BAN_DO $SUBNET_IP
+			fi
+		else
+		    echo "IP $IP 来自 $COUNTRY，允许访问。"
+		fi
+	done
+}
+
+
+
+RUN_CMD_SYN_SENT(){
 	netstat -an | grep tcp | while read line; do
 		echo $line
 		SRC_IP=$(echo "$line" | awk '{print $5}' | cut -d= -f2)
@@ -181,6 +210,21 @@ RUN_CMD(){
 			fi
 		fi
 	done
+}
+
+RUN_CMD(){
+	# 设置超时时间（秒）
+	TIMEOUT=3
+
+	# 设置禁止访问的时间（秒）
+	BAN_TIME=300
+
+	# 获取当前时间
+	CURRENT_TIME=$(date +%s)
+
+	# SYN_RECV攻击
+	RUN_CMD_SYN_RECV
+	
 }
 
 MF_LOOK(){
