@@ -125,6 +125,22 @@ MF_TCP_INFO(){
 	cur_max_connections2=`netstat -an | grep tcp | wc -l`
 	echo "当前TCP连接数[2]: ${cur_max_connections2} [netstat -an | grep tcp | wc -l]"
 
+
+	sockstat=$(cat /proc/net/sockstat)
+	# 提取关键信息
+	sockets_used=$(echo "$sockstat" | grep 'sockets:' | awk '{print $3}')
+	tcp_inuse=$(echo "$sockstat" | grep 'TCP:' | awk '{print $3}')
+	tcp_mem=$(echo "$sockstat" | grep 'TCP:' | awk '{print $NF}')
+	udp_inuse=$(echo "$sockstat" | grep 'UDP:' | awk '{print $3}')
+	udp_mem=$(echo "$sockstat" | grep 'UDP:' | awk '{print $NF}')
+
+	# 输出结果
+	echo "总套接字数: $sockets_used"
+	echo "TCP 连接数: $tcp_inuse"
+	echo "TCP 内存占用: $((tcp_mem * 4)) KB"
+	echo "UDP 连接数: $udp_inuse"
+	echo "UDP 内存占用: $((udp_mem * 4)) KB"
+
 	echo -e "${RED}ss -s${PLAIN}"
 	ss -s 
 }
