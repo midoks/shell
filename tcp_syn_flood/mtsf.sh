@@ -119,6 +119,10 @@ RUN_CMD(){
 			continue
 		fi
 
+		if [[ "$IP" == "" ]];then
+			continue
+		fi
+
 		COUNTRY=`geoiplookup $IP | awk -F ': ' '{print $2}' | awk -F ',' '{print $1}'`
 		echo "COUNTRY:$COUNTRY"
 
