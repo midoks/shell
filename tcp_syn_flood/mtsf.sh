@@ -98,7 +98,7 @@ MF_TCP_INFO(){
 
 case "$1" in
     "run") RUN_CMD ;;
-    'look') MF_LOOK ;;
+    "look") MF_LOOK ;;
 	"info") MF_TCP_INFO;;
     *) iptables -L ;;
 esac
