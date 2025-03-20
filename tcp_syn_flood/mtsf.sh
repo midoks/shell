@@ -199,7 +199,7 @@ MF_CONF_OPT(){
 
 	FIND_NI_tcp_tw_reuse=`cat /etc/sysctl.conf | grep net.ipv4.tcp_tw_reuse`
 	if [ "$FIND_NI_tcp_tw_reuse" == "" ];then
-		echo 1 > /proc/sys/ipv4/core/tcp_tw_reuse
+		echo 1 > /proc/sys/net/ipv4/tcp_tw_reuse
 		echo "net.ipv4.tcp_tw_reuse = 1" >> /etc/sysctl.conf
 	else
 		echo "net.ipv4.tcp_tw_reuse exist!"
