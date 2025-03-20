@@ -166,6 +166,7 @@ RUN_CMD(){
 }
 
 MF_LOOK(){
+	netstat -an|grep tcp
 	# netstat -an|grep SYN_RECV
 	watch -n 1 'netstat -an|grep SYN_RECV'
 	watch -n 1 'netstat -an|grep TIME_WAIT'
