@@ -136,12 +136,31 @@ MF_CONF_OPT(){
 
 	# 启用TCP窗口缩放和选择性确认
 	echo "启用TCP窗口缩放和选择性确认..."
-	echo 1 > /proc/sys/net/ipv4/tcp_window_scaling
-	echo 1 > /proc/sys/net/ipv4/tcp_sack
+	FIND_NI_tcp_window_scaling=`cat /etc/sysctl.conf | grep net.ipv4.tcp_window_scaling`
+	if [ "$FIND_NI_tcp_window_scaling" == "" ];then
+		echo 1 > /proc/sys/net/ipv4/tcp_window_scaling
+		echo "net.ipv4.tcp_window_scaling = 1" >> /etc/sysctl.conf
+	else
+		echo "net.ipv4.tcp_window_scaling exist!"
+	fi
+
+	FIND_NI_tcp_sack=`cat /etc/sysctl.conf | grep net.ipv4.tcp_sack`
+	if [ "$FIND_NI_tcp_sack" == "" ];then
+		echo 1 > /proc/sys/net/ipv4/tcp_sack
+		echo "net.ipv4.tcp_sack = 1" >> /etc/sysctl.conf
+	else
+		echo "net.ipv4.tcp_sack exist!"
+	fi
 
 	# 启用时间戳
 	echo "启用时间戳..."
-	echo 1 > /proc/sys/net/ipv4/tcp_timestamps
+	FIND_NI_tcp_timestamps=`cat /etc/sysctl.conf | grep net.ipv4.tcp_timestamps`
+	if [ "$FIND_NI_tcp_timestamps" == "" ];then
+		echo 1 > /proc/sys/net/ipv4/tcp_timestamps
+		echo "net.ipv4.tcp_timestamps = 1" >> /etc/sysctl.conf
+	else
+		echo "net.ipv4.tcp_timestamps exist!"
+	fi
 
 	# 优化TIME-WAIT状态
 	echo "优化TIME-WAIT状态..."
@@ -159,13 +178,39 @@ MF_CONF_OPT(){
 
 	# 启用SYN Cookies
 	echo "启用SYN Cookies..."
-	echo 1 > /proc/sys/net/ipv4/tcp_syncookies
+	FIND_NI_tcp_syncookies=`cat /etc/sysctl.conf | grep net.ipv4.tcp_syncookies`
+	if [ "$FIND_NI_tcp_syncookies" == "" ];then
+		echo 1 > /proc/sys/net/ipv4/tcp_syncookies
+		echo "net.ipv4.tcp_syncookies = 1" >> /etc/sysctl.conf
+	else
+		echo "net.ipv4.tcp_syncookies exist!"
+	fi
 
 	# 优化Keepalive参数
 	echo "优化Keepalive参数..."
-	echo 600 > /proc/sys/net/ipv4/tcp_keepalive_time
-	echo 30 > /proc/sys/net/ipv4/tcp_keepalive_intvl
-	echo 3 > /proc/sys/net/ipv4/tcp_keepalive_probes
+	FIND_NI_tcp_keepalive_time=`cat /etc/sysctl.conf | grep net.ipv4.tcp_keepalive_time`
+	if [ "$FIND_NI_tcp_keepalive_time" == "" ];then
+		echo 600 > /proc/sys/net/ipv4/tcp_keepalive_time
+		echo "net.ipv4.tcp_keepalive_time = 600" >> /etc/sysctl.conf
+	else
+		echo "net.ipv4.tcp_keepalive_time exist!"
+	fi
+
+	FIND_NI_tcp_keepalive_intvl=`cat /etc/sysctl.conf | grep net.ipv4.tcp_keepalive_intvl`
+	if [ "$FIND_NI_tcp_keepalive_intvl" == "" ];then
+		echo 30 > /proc/sys/net/ipv4/tcp_keepalive_intvl
+		echo "net.ipv4.tcp_keepalive_intvl = 30" >> /etc/sysctl.conf
+	else
+		echo "net.ipv4.tcp_keepalive_intvl exist!"
+	fi
+
+	FIND_NI_tcp_keepalive_probes=`cat /etc/sysctl.conf | grep net.ipv4.tcp_keepalive_probes`
+	if [ "$FIND_NI_tcp_keepalive_probes" == "" ];then
+		echo 3 > /proc/sys/net/ipv4/tcp_keepalive_probes
+		echo "net.ipv4.tcp_keepalive_probes = 3" >> /etc/sysctl.conf
+	else
+		echo "net.ipv4.tcp_keepalive_probes exist!"
+	fi
 
 	echo "===== TCP参数优化完成 ====="
 
