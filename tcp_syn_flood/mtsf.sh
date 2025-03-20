@@ -228,7 +228,7 @@ MF_CONF_OPT(){
 	fi
 
 	FIND_NC_somaxconn=`cat /etc/sysctl.conf | grep net.core.somaxconn`
-	if [ "$FIND_NI_somaxconn" == "" ];then
+	if [ "$FIND_NC_somaxconn" == "" ];then
 		echo 65535 > /proc/sys/net/core/somaxconn
 		echo "net.core.somaxconn = 65535" >> /etc/sysctl.conf
 	else
