@@ -123,6 +123,7 @@ MF_UPDATE(){
 		rm -rf /usr/bin/mtsf
 	fi
 	curl -fsSL https://raw.githubusercontent.com/midoks/shell/refs/heads/main/tcp_syn_flood/install.sh | sh
+	MF_TCP_INFO
 }
 
 case "$1" in
