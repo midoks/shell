@@ -488,7 +488,9 @@ MF_CRON_ADD(){
 
 	# 检查
 	# grep CRON /var/log/syslog
+	# grep CRON /var/log/messages
 	# systemctl status cron
+	# systemctl restart cron
 }
 
 MF_CRON_DELETE(){
