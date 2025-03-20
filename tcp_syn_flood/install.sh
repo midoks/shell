@@ -10,6 +10,7 @@ which apt && apt install -y net-tools
 which apt && apt install -y conntrack
 which apt && apt install -y geoip-bin
 which apt && apt install -y at
+which apt && apt install -y iptables
 
 if [ ! -f /usr/bin/mtsf ];then
 	wget -O /usr/bin/mtsf https://raw.githubusercontent.com/midoks/shell/refs/heads/main/tcp_syn_flood/mtsf.sh?t=${TIME}
