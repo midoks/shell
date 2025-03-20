@@ -16,6 +16,8 @@ if [ ! -f /usr/bin/mtsf ];then
 	chmod +x /usr/bin/mtsf
 fi
 
+mtsf cron_add
 mtsf v
+
 
 echo "install mtsf end"
