@@ -41,6 +41,12 @@ MF_GET_SUBNET(){
 	echo $SUBNET
 }
 
+MF_GET_PRESTR(){
+	IP="$1"
+	IFS='.' read -r i1 i2 i3 i4 <<< "$IP"
+	echo $i1.$i2.$i3
+}
+
 MF_BAN_DO(){
 	SUBNET_IP="$1"
 	FIND_SUBNET_IP=`iptables -L -n | grep $SUBNET_IP`
@@ -88,7 +94,11 @@ RUN_CMD(){
 			# ss -n state syn-recv -o
 			# 判断重试次数
 
-			MF_BAN_DO $SUBNET_IP
+			IP_PREFIX_STR=`MF_GET_PRESTR $IP`
+
+			echo "IP_PREFIX_STR:$IP_PREFIX_STR"
+
+			# MF_BAN_DO $SUBNET_IP
 
 			# FIND_SUBNET_IP=`iptables -L -n | grep $SUBNET_IP`
 			# if [[ "$FIND_SUBNET_IP" == "" ]];then
