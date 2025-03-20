@@ -191,7 +191,7 @@ MF_CONF_OPT(){
 	echo "优化TIME-WAIT状态..."
 	FIND_NI_tcp_fin_timeout=`cat /etc/sysctl.conf | grep net.ipv4.tcp_fin_timeout`
 	if [ "$FIND_NI_tcp_fin_timeout" == "" ];then
-		echo 30 > /proc/sys/net/core/tcp_fin_timeout
+		echo 30 > /proc/sys/net/ipv4/tcp_fin_timeout
 		echo "net.ipv4.tcp_fin_timeout = 30" >> /etc/sysctl.conf
 	else
 		echo "net.ipv4.tcp_fin_timeout exist!"
@@ -199,7 +199,7 @@ MF_CONF_OPT(){
 
 	FIND_NI_tcp_tw_reuse=`cat /etc/sysctl.conf | grep net.ipv4.tcp_tw_reuse`
 	if [ "$FIND_NI_tcp_tw_reuse" == "" ];then
-		echo 1 > /proc/sys/net/core/tcp_tw_reuse
+		echo 1 > /proc/sys/ipv4/core/tcp_tw_reuse
 		echo "net.ipv4.tcp_tw_reuse = 1" >> /etc/sysctl.conf
 	else
 		echo "net.ipv4.tcp_tw_reuse exist!"
@@ -211,7 +211,7 @@ MF_CONF_OPT(){
 
 	FIND_NI_tcp_max_tw_buckets=`cat /etc/sysctl.conf | grep net.ipv4.tcp_max_tw_buckets`
 	if [ "$FIND_NI_tcp_max_tw_buckets" == "" ];then
-		echo 65535 > /proc/sys/net/core/tcp_max_tw_buckets
+		echo 65535 > /proc/sys/net/ipv4/tcp_max_tw_buckets
 		echo "net.ipv4.tcp_max_tw_buckets = 65535" >> /etc/sysctl.conf
 	else
 		echo "net.ipv4.tcp_max_tw_buckets exist!"
