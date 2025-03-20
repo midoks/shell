@@ -99,7 +99,11 @@ RUN_CMD(){
 			echo "IP_PREFIX_STR:$IP_PREFIX_STR"
 			NUMS=`netstat -an|grep SYN_RECV | grep $IP_PREFIX_STR | wc -l`
 			echo "NUMS:$NUMS"
-			# MF_BAN_DO $SUBNET_IP
+
+			# 规则1 , 138.94.192 同网段下超过2个，大概率为攻击方
+			if [[ "$NUMS" -gt 2 ]];then
+				MF_BAN_DO $SUBNET_IP
+			fi
 
 			# FIND_SUBNET_IP=`iptables -L -n | grep $SUBNET_IP`
 			# if [[ "$FIND_SUBNET_IP" == "" ]];then
