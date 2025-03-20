@@ -71,9 +71,35 @@ MF_SIMPLE_OP(){
 	iptables -A INPUT -p tcp --syn -j DROP
 }
 
+MF_TCP_INFO(){
+	# 获取本地端口范围
+	read port_min port_max < /proc/sys/net/ipv4/ip_local_port_range
+	port_count=$((port_max - port_min + 1))
+
+	# 获取文件描述符限制
+	file_max=$(cat /proc/sys/fs/file-max)
+	ulimit_n=$(ulimit -n)
+	fd_limit=$((file_max < ulimit_n ? file_max : ulimit_n))
+
+	# 获取TCP内存限制（以页为单位，1页=4KB）
+	read tcp_mem_min tcp_mem_pressure tcp_mem_max < /proc/sys/net/ipv4/tcp_mem
+	tcp_mem_max_kb=$((tcp_mem_max * 4))
+	tcp_mem_max_mb=$((tcp_mem_max_kb / 1024))
+
+	# 计算最大TCP连接数
+	max_connections=$((port_count < fd_limit ? port_count : fd_limit))
+
+	# 输出结果
+	echo "本地端口范围: $port_min - $port_max (可用端口: $port_count)"
+	echo "文件描述符限制: $fd_limit"
+	echo "TCP内存限制: $tcp_mem_max_mb MB"
+	echo "最大TCP连接数: $max_connections"
+}
+
 case "$1" in
     "run") RUN_CMD ;;
     'look') MF_LOOK ;;
+	"info") MF_TCP_INFO;;
     *) iptables -L ;;
 esac
 
