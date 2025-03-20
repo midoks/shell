@@ -56,7 +56,7 @@ MF_BAN_DO(){
 	    echo "iptables -A INPUT -s $SUBNET_IP -j DROP"
 
 	    IPTABLES_CMD=`which iptables`
-	    $IPTABLES_CMD -A INPUT -s $SUBNET_IP -j DROP > /tmp/t.log
+	    $IPTABLES_CMD -A INPUT -s $SUBNET_IP -j DROP > /tmp/t.log 2>&1
 	    echo $?
 	    # 5分钟后解封
 	    echo "iptables -D INPUT -s $SUBNET_IP -j DROP" | at now + 5 minutes
