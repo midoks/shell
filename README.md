@@ -22,4 +22,6 @@ mtsf run|r      -> 执行防护命令
 mtsf info|i     -> 查看tcp相关信息
 mtsf opt|o      -> 简单的配置优化
 mtsf update|u   -> 更新到最新版
+mtsf cron_add   -> 添加到计划任务
+mtsf cron_del   -> 从计划任务删除
 ```
