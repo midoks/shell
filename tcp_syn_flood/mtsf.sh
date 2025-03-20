@@ -43,6 +43,7 @@ RUN_CMD(){
 		if [[ "$COUNTRY" != "CN" ]]; then
 		    echo "IP $IP 来自 $COUNTRY，将被封禁5分钟。"
 		    # 封禁IP地址
+		    echo "iptables -A INPUT -s $IP -j DROP"
 		    iptables -A INPUT -s $IP -j DROP
 		    # 5分钟后解封
 		    echo "iptables -D INPUT -s $IP -j DROP" | at now + 5 minutes
