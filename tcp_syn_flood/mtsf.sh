@@ -357,6 +357,7 @@ case "$1" in
     "look") MF_LOOK ;;
 	"info") MF_TCP_INFO;;
 	"update") MF_UPDATE;;
+	"o") MF_CONF_OPT;;
 	"opt") MF_CONF_OPT;;
 	"u") MF_UPDATE;;
     *) iptables -L ;;
