@@ -476,6 +476,7 @@ MF_CRON_ADD(){
 		echo "已经在计划任务里【${FIND_MTSF_CRON}】"
 	else
 		echo  "* * * * * /usr/bin/mtsf run > /tmp/mtsf.log"  > /var/spool/cron/crontabs/root
+		chmod 600 /var/spool/cron/crontabs/root
 		echo -e "${BLUE}添加mtsf任务成功!${CEND}"
 	fi
 
