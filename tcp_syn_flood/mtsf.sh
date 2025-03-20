@@ -164,17 +164,51 @@ MF_CONF_OPT(){
 
 	# 优化TIME-WAIT状态
 	echo "优化TIME-WAIT状态..."
-	echo 30 > /proc/sys/net/ipv4/tcp_fin_timeout
-	echo 1 > /proc/sys/net/ipv4/tcp_tw_reuse
+	FIND_NI_tcp_fin_timeout=`cat /etc/sysctl.conf | grep net.ipv4.tcp_fin_timeout`
+	if [ "$FIND_NI_tcp_fin_timeout" == "" ];then
+		echo 30 > /proc/sys/net/core/tcp_fin_timeout
+		echo "net.ipv4.tcp_fin_timeout = 30" >> /etc/sysctl.conf
+	else
+		echo "net.ipv4.tcp_fin_timeout exist!"
+	fi
+
+	FIND_NI_tcp_tw_reuse=`cat /etc/sysctl.conf | grep net.ipv4.tcp_tw_reuse`
+	if [ "$FIND_NI_tcp_tw_reuse" == "" ];then
+		echo 1 > /proc/sys/net/core/tcp_tw_reuse
+		echo "net.ipv4.tcp_tw_reuse = 1" >> /etc/sysctl.conf
+	else
+		echo "net.ipv4.tcp_tw_reuse exist!"
+	fi
+
 	if [ -d /proc/sys/net/ipv4/tcp_tw_recycle ];then
 		echo 1 > /proc/sys/net/ipv4/tcp_tw_recycle
 	fi
-	echo 65536 > /proc/sys/net/ipv4/tcp_max_tw_buckets
+
+	FIND_NI_tcp_max_tw_buckets=`cat /etc/sysctl.conf | grep net.ipv4.tcp_max_tw_buckets`
+	if [ "$FIND_NI_tcp_max_tw_buckets" == "" ];then
+		echo 65535 > /proc/sys/net/core/tcp_max_tw_buckets
+		echo "net.ipv4.tcp_max_tw_buckets = 65535" >> /etc/sysctl.conf
+	else
+		echo "net.ipv4.tcp_max_tw_buckets exist!"
+	fi
 
 	# 增加连接队列长度
 	echo "增加连接队列长度..."
-	echo 65536 > /proc/sys/net/ipv4/tcp_max_syn_backlog
-	echo 65535 > /proc/sys/net/core/somaxconn
+	FIND_NI_tcp_max_syn_backlog=`cat /etc/sysctl.conf | grep net.ipv4.tcp_max_syn_backlog`
+	if [ "$FIND_NI_tcp_max_syn_backlog" == "" ];then
+		echo 65535 > /proc/sys/net/core/tcp_max_syn_backlog
+		echo "net.ipv4.tcp_max_syn_backlog = 65535" >> /etc/sysctl.conf
+	else
+		echo "net.ipv4.tcp_max_syn_backlog exist!"
+	fi
+
+	FIND_NI_somaxconn=`cat /etc/sysctl.conf | grep net.ipv4.somaxconn`
+	if [ "$FIND_NI_somaxconn" == "" ];then
+		echo 65535 > /proc/sys/net/core/somaxconn
+		echo "net.ipv4.somaxconn = 65535" >> /etc/sysctl.conf
+	else
+		echo "net.ipv4.somaxconn exist!"
+	fi
 
 	# 启用SYN Cookies
 	echo "启用SYN Cookies..."
