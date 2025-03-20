@@ -470,6 +470,7 @@ case "$1" in
 	"info" | "i") MF_TCP_INFO;;
 	"update" | "u") MF_UPDATE;;
 	"opt" | "o") MF_CONF_OPT;;
+	"cron_add" ) MF_CRON_ADD;;
 	"version" | "v") MF_VERSION;;
     *) iptables -L -n;;
 esac
