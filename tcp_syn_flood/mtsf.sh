@@ -16,6 +16,30 @@ WORKING=$BLUE'*'${CEND}
 MF_VERSION(){
 	echo "mtsf - 0.0.3"
 }
+
+MF_GET_SUBNET(){
+	# 输入IP地址和掩码
+	IP="$1"
+	MASK="24" # 可以修改为 16、8 等
+
+	# 根据掩码计算网络部分
+	IFS='.' read -r i1 i2 i3 i4 <<< "$IP"
+
+	if [ "$MASK" -eq 24 ]; then
+	    NETWORK="$i1.$i2.$i3.0"
+	elif [ "$MASK" -eq 16 ]; then
+	    NETWORK="$i1.$i2.0.0"
+	elif [ "$MASK" -eq 8 ]; then
+	    NETWORK="$i1.0.0.0"
+	else
+	    echo "不支持的掩码: $MASK"
+	    exit 1
+	fi
+
+	# 添加掩码
+	SUBNET="$NETWORK/$MASK"
+}
+
 RUN_CMD(){
 	# 设置超时时间（秒）
 	TIMEOUT=3
@@ -39,17 +63,20 @@ RUN_CMD(){
 		COUNTRY=`geoiplookup $IP | awk -F ': ' '{print $2}' | awk -F ',' '{print $1}'`
 		echo "COUNTRY:$COUNTRY"
 
+		SUBNET_IP=`MF_GET_SUBNET $IP`
+		echo "SUBNET_IP:$SUBNET_IP"
+
 		# 检查是否为目标国家
-		if [[ "$COUNTRY" != "CN" ]]; then
-		    echo "IP $IP 来自 $COUNTRY，将被封禁5分钟。"
-		    # 封禁IP地址
-		    echo "iptables -A INPUT -s $IP -j DROP"
-		    iptables -A INPUT -s $IP -j DROP
-		    # 5分钟后解封
-		    echo "iptables -D INPUT -s $IP -j DROP" | at now + 5 minutes
-		else
-		    echo "IP $IP 来自 $COUNTRY，允许访问。"
-		fi
+		# if [[ "$COUNTRY" != "CN" ]]; then
+		#     echo "IP $IP 来自 $COUNTRY，将被封禁5分钟。"
+		#     # 封禁IP地址
+		#     echo "iptables -A INPUT -s $IP -j DROP"
+		#     iptables -A INPUT -s $IP -j DROP
+		#     # 5分钟后解封
+		#     echo "iptables -D INPUT -s $IP -j DROP" | at now + 5 minutes
+		# else
+		#     echo "IP $IP 来自 $COUNTRY，允许访问。"
+		# fi
 
 		# if [[ "$line" =~ "conntrack-tools" ]];then
 		# 	echo $line
