@@ -64,12 +64,18 @@ MF_BAN_DO(){
 	    echo "${IPTABLES_CMD} -A INPUT -s $SUBNET_IP -j DROP"
 	    ${IPTABLES_CMD} -A INPUT -s $SUBNET_IP -j DROP
 
+	   	# iptables -A INPUT -s 192.3.171.0/24 -j DROP
+	   	# iptables -A INPUT -s 192.3.171.0/24 -j DROP
+
+	   	# iptables -A OUTPUT -s 192.3.171.0/24 -j DROP
+	   	# iptables -A OUTPUT -s 192.3.171.0/24 -j DROP
+
 	    echo "${IPTABLES_CMD} -A OUTPUT -d $SUBNET_IP -j DROP"
 	    ${IPTABLES_CMD} -A OUTPUT -d $SUBNET_IP -j DROP
 
 	    # 5分钟后解封
 	    echo "iptables -D INPUT -s $SUBNET_IP -j DROP" | at now + 5 minutes
-	    echo "iptables -D OUTPUT -s $SUBNET_IP -j DROP" | at now + 5 minutes
+	    echo "iptables -D OUTPUT -d $SUBNET_IP -j DROP" | at now + 5 minutes
 
 	    echo "${SUBNET_IP} 5分钟后解封"
 	else
@@ -97,7 +103,7 @@ MF_BAN_DO1(){
 	    ${IPTABLES_CMD} -A OUTPUT -d $SUBNET_IP -j DROP
 	    # 5分钟后解封
 	    echo "iptables -D INPUT -s $SUBNET_IP -j DROP" | at now + 1 minutes
-	    echo "iptables -D OUTPUT -s $SUBNET_IP -j DROP" | at now + 1 minutes
+	    echo "iptables -D OUTPUT -d $SUBNET_IP -j DROP" | at now + 1 minutes
 	    echo "${SUBNET_IP} 1分钟后解封"
 	else
 		echo "IP $SUBNET_IP 来自 $COUNTRY，已经封禁。"
@@ -133,6 +139,7 @@ RUN_CMD(){
 			continue
 		fi
 
+		# geoiplookup 23.94.85.238 | awk -F ': ' '{print $2}' | awk -F ',' '{print $1}'
 		COUNTRY=`geoiplookup $IP | awk -F ': ' '{print $2}' | awk -F ',' '{print $1}'`
 		echo "COUNTRY:$COUNTRY"
 
@@ -147,6 +154,7 @@ RUN_CMD(){
 
 			IP_PREFIX_STR=`MF_GET_PRESTR $IP`
 
+			# netstat -an|grep tcp | grep 23.94.85 | wc -l
 			echo "IP_PREFIX_STR:$IP_PREFIX_STR"
 			NUMS=`netstat -an|grep tcp | grep $IP_PREFIX_STR | wc -l`
 			echo "NUMS:$NUMS"
