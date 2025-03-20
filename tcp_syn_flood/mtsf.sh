@@ -57,6 +57,7 @@ MF_BAN_DO(){
 	    iptables -A INPUT -s $SUBNET_IP -j DROP
 	    # 5分钟后解封
 	    echo "iptables -D INPUT -s $SUBNET_IP -j DROP" | at now + 5 minutes
+	    echo "${SUBNET_IP} 5分钟后解封"
 	else
 		echo "IP $SUBNET_IP 来自 $COUNTRY，已经封禁。"
 	fi
@@ -462,7 +463,9 @@ MF_UPDATE(){
 
 MF_CRON_ADD(){
 	# 定义要添加的计划任务
-	cron_job="* * * * * root /usr/bin/mtsf run"
+	cron_job="* * * * * /usr/bin/mtsf run > /tmp/mtsf.log" 
+
+	# echo  "* * * * * /usr/bin/mtsf run > /tmp/mtsf.log"  > /var/spool/cron/crontabs/root
 	# 将计划任务写入 /etc/cron.d/mtsf_cron
 	echo "$cron_job" | sudo tee /etc/cron.d/mtsf_cron > /dev/null
 
