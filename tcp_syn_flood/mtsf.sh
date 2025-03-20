@@ -14,7 +14,7 @@ ERROR=$RED'ERROR'${CEND}
 WORKING=$BLUE'*'${CEND}
 
 MF_VERSION(){
-	echo "mtsf - 0.0.10"
+	echo "mtsf - 0.0.11"
 }
 
 MF_GET_SUBNET(){
@@ -57,6 +57,7 @@ MF_BAN_DO(){
 
 	    IPTABLES_CMD=`which iptables`
 	    $IPTABLES_CMD -A INPUT -s $SUBNET_IP -j DROP
+	    echo $?
 	    # 5分钟后解封
 	    echo "iptables -D INPUT -s $SUBNET_IP -j DROP" | at now + 5 minutes
 	    echo "${SUBNET_IP} 5分钟后解封"
