@@ -499,6 +499,7 @@ MF_CRON_DELETE(){
 
 	# 清理临时文件
 	# rm -rf "$TEMP_FILE"
+	echo "TEMP_FILE:$TEMP_FILE"
 	# 检查
 	echo -e "${BLUE}删除任务成功!${CEND}"
 }
