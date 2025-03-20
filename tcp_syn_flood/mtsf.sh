@@ -146,11 +146,11 @@ MF_CONF_OPT(){
 		echo "net.core.tcp_congestion_control exist"
 	fi
 
-	FIND_NC_tcp_congestion_control=`cat /etc/sysctl.conf | grep net.core.tcp_congestion_control`
+	FIND_NC_tcp_congestion_control=`cat /etc/sysctl.conf | grep net.ipv4.tcp_congestion_control`
 	if [ "$FIND_NC_tcp_congestion_control" == "" ];then
-		echo "net.core.tcp_congestion_control=bbr" >> /etc/sysctl.conf
+		echo "net.ipv4.tcp_congestion_control=bbr" >> /etc/sysctl.conf
 	else
-		echo "net.core.tcp_congestion_control exist"
+		echo "net.ipv4.tcp_congestion_control exist"
 	fi
 	sysctl -p
 
