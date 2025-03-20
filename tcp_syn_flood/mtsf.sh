@@ -117,7 +117,9 @@ MF_CONF_OPT(){
 	echo "优化TIME-WAIT状态..."
 	echo 30 > /proc/sys/net/ipv4/tcp_fin_timeout
 	echo 1 > /proc/sys/net/ipv4/tcp_tw_reuse
-	echo 1 > /proc/sys/net/ipv4/tcp_tw_recycle
+	if [ -d /proc/sys/net/ipv4/tcp_tw_recycle ];then
+		echo 1 > /proc/sys/net/ipv4/tcp_tw_recycle
+	fi
 	echo 65536 > /proc/sys/net/ipv4/tcp_max_tw_buckets
 
 	# 增加连接队列长度
