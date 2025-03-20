@@ -118,6 +118,7 @@ MF_CONF_OPT(){
 		# 输出完成信息
 		echo "limits.conf 配置已更新："
 		grep "^[*] .* nofile" /etc/security/limits.conf
+		echo -e "${GREEN}cat /etc/security/limits.conf${CEND}"
 
 	fi
 
