@@ -17,8 +17,8 @@ curl -fsSL https://raw.githubusercontent.com/midoks/shell/refs/heads/main/tcp_sy
 
 - 命令
 ```
-mtsf look   	-> 查看SYN_RECV连接
-mtsf run 		-> 执行防护命令
+mtsf look|l   	-> 查看SYN_RECV连接
+mtsf run|r 		-> 执行防护命令
 mtsf info|i 	-> 查看tcp相关信息
 mtsf opt|o 		-> 简单的配置优化
 mtsf update|u 	-> 更新到最新版
