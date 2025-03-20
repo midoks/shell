@@ -14,7 +14,7 @@ ERROR=$RED'ERROR'${CEND}
 WORKING=$BLUE'*'${CEND}
 
 MF_VERSION(){
-	echo "mtsf - 0.0.2"
+	echo "mtsf - 0.0.3"
 }
 RUN_CMD(){
 	# 设置超时时间（秒）
