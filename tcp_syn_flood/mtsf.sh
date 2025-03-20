@@ -510,7 +510,7 @@ case "$1" in
 	"update" | "u") MF_UPDATE;;
 	"opt" | "o") MF_CONF_OPT;;
 	"cron_add" ) MF_CRON_ADD;;
-	"cron_del" ) MF_CRON_ADD;;
+	"cron_del" ) MF_CRON_DELETE;;
 	"version" | "v") MF_VERSION;;
     *) iptables -L -n;;
 esac
