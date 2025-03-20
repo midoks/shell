@@ -60,7 +60,7 @@ MF_BAN_DO(){
 		    echo "iptables 未安装或未找到，请先安装 iptables。"
 		    exit 1
 		fi
-	    echo "$IPTABLES_CMD -A INPUT -s $SUBNET_IP -j DROP"
+	    echo "${IPTABLES_CMD} -A INPUT -s $SUBNET_IP -j DROP"
 	    ${IPTABLES_CMD} -A INPUT -s $SUBNET_IP -j DROP > /tmp/t.log 2>&1
 	    echo $?
 	    # 5分钟后解封
