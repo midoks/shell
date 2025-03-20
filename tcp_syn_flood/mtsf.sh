@@ -37,7 +37,6 @@ MF_GET_SUBNET(){
 	    echo "不支持的掩码: $MASK"
 	    exit 1
 	fi
-
 	# 添加掩码
 	SUBNET="$NETWORK/$MASK"
 	echo $SUBNET
@@ -85,7 +84,7 @@ RUN_CMD(){
 	# 获取所有 SYN_RECV 状态的连接
 	# netstat -an | grep SYN_RECV | while read line; do
 	netstat -an | grep tcp | while read line; do
-		# echo $line
+		echo $line
 		SRC_IP=$(echo "$line" | awk '{print $5}' | cut -d= -f2)
 		# echo "SRC_IP:$SRC_IP"
 
