@@ -94,6 +94,31 @@ MF_CONF_OPT(){
 		echo -e "${GREEN}ulimit -n 65535${CEND}"
 
 
+		# 定义要添加的配置
+		SOFT_LIMIT="* soft nofile 65535"
+		HARD_LIMIT="* hard nofile 65535"
+
+		# 检查并更新 limits.conf
+		if grep -q "^[*] soft nofile" /etc/security/limits.conf; then
+		    # 如果已存在 soft nofile 配置，则替换
+		    sed -i '/^[*] soft nofile/c\'"$SOFT_LIMIT" /etc/security/limits.conf
+		else
+		    # 如果不存在，则追加
+		    echo "$SOFT_LIMIT" >> /etc/security/limits.conf
+		fi
+
+		if grep -q "^[*] hard nofile" /etc/security/limits.conf; then
+		    # 如果已存在 hard nofile 配置，则替换
+		    sed -i '/^[*] hard nofile/c\'"$HARD_LIMIT" /etc/security/limits.conf
+		else
+		    # 如果不存在，则追加
+		    echo "$HARD_LIMIT" >> /etc/security/limits.conf
+		fi
+
+		# 输出完成信息
+		echo "limits.conf 配置已更新："
+		grep "^[*] .* nofile" /etc/security/limits.conf
+
 	fi
 
 	# 设置TCP优化参数
