@@ -107,7 +107,7 @@ RUN_CMD(){
 			IP_PREFIX_STR=`MF_GET_PRESTR $IP`
 
 			echo "IP_PREFIX_STR:$IP_PREFIX_STR"
-			NUMS=`netstat -an|grep SYN_RECV | grep $IP_PREFIX_STR | wc -l`
+			NUMS=`netstat -an|grep tcp | grep $IP_PREFIX_STR | wc -l`
 			echo "NUMS:$NUMS"
 
 			# 规则1 , 138.94.192 同网段下超过2个，大概率为攻击方
