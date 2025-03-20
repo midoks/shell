@@ -149,6 +149,9 @@ RUN_CMD_SYN_RECV(){
 }
 
 
+MF_T(){
+	RUN_CMD_SYN_SENT
+}
 
 RUN_CMD_SYN_SENT(){
 	netstat -an | grep tcp | while read line; do
@@ -589,6 +592,7 @@ case "$1" in
 	"cron_del" ) MF_CRON_DELETE;;
 	"log" ) MF_CRON_LOG;;
 	"version" | "v") MF_VERSION;;
+	"t" ) MF_T;;
     *) iptables -L -n;;
 esac
 
