@@ -54,7 +54,9 @@ MF_BAN_DO(){
 		echo "IP $SUBNET_IP 来自 $COUNTRY，将被封禁5分钟。"
 	    # 封禁IP地址
 	    echo "iptables -A INPUT -s $SUBNET_IP -j DROP"
-	    iptables -A INPUT -s $SUBNET_IP -j DROP
+
+	    IPTABLES_CMD=`which iptables`
+	    $IPTABLES_CMD -A INPUT -s $SUBNET_IP -j DROP
 	    # 5分钟后解封
 	    echo "iptables -D INPUT -s $SUBNET_IP -j DROP" | at now + 5 minutes
 	    echo "${SUBNET_IP} 5分钟后解封"
