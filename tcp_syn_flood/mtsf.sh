@@ -13,7 +13,9 @@ WARN=$YELLOW'WARN'${CEND}
 ERROR=$RED'ERROR'${CEND}
 WORKING=$BLUE'*'${CEND}
 
-
+MF_VERSION(){
+	echo "mtsf - 0.0.1"
+}
 RUN_CMD(){
 	# 设置超时时间（秒）
 	TIMEOUT=3
@@ -362,6 +364,7 @@ MF_UPDATE(){
 	fi
 	curl -fsSL https://raw.githubusercontent.com/midoks/shell/refs/heads/main/tcp_syn_flood/install.sh | sh
 	MF_TCP_INFO
+	MF_VERSION
 }
 
 case "$1" in
@@ -370,6 +373,7 @@ case "$1" in
 	"info" | "i") MF_TCP_INFO;;
 	"update" | "u") MF_UPDATE;;
 	"opt" | "o") MF_CONF_OPT;;
+	"version" | "v") MF_VERSION;;
     *) iptables -L ;;
 esac
 
