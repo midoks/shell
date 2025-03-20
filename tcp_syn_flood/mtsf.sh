@@ -538,6 +538,10 @@ MF_CRON_DELETE(){
 	echo -e "${BLUE}删除mtsf任务成功!${CEND}"
 }
 
+MF_CRON_LOG(){
+	cat /tmp/mtsf.log
+}
+
 case "$1" in
     "run" | "r") RUN_CMD ;;
     "look" | "l") MF_LOOK ;;
@@ -546,6 +550,7 @@ case "$1" in
 	"opt" | "o") MF_CONF_OPT;;
 	"cron_add" ) MF_CRON_ADD;;
 	"cron_del" ) MF_CRON_DELETE;;
+	"log" ) MF_CRON_LOG;;
 	"version" | "v") MF_VERSION;;
     *) iptables -L -n;;
 esac
