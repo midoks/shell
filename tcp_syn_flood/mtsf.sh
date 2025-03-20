@@ -63,11 +63,13 @@ RUN_CMD(){
 }
 
 MF_LOOK(){
+	# netstat -an|grep SYN_RECV
 	watch -n 1 'netstat -an|grep SYN_RECV'
 }
 
 MF_LOOK_SS(){
-	ss -n state syn-recv -o
+	# ss -n state syn-recv -o
+	watch -n 1 'ss -n state syn-recv -o'
 }
 
 MF_LOOK_TIME(){
@@ -323,6 +325,8 @@ MF_TCP_INFO(){
 	cur_max_connections2=`netstat -an | grep tcp | wc -l`
 	echo "当前TCP连接数[2]: ${cur_max_connections2} [netstat -an | grep tcp | wc -l]"
 
+	cur_syn_recv=`netstat -an|grep SYN_RECV`
+	echo "当前TCP{SYN_RECV}连接数: ${cur_syn_recv} [netstat -an|grep SYN_RECV]"
 
 	sockstat=$(cat /proc/net/sockstat)
 	# 提取关键信息
