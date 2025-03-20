@@ -462,13 +462,12 @@ MF_UPDATE(){
 }
 
 MF_CRON_ADD(){
-	
-
 	FIND_MTSF_CRON=`cat /var/spool/cron/crontabs/root | grep "mtsf run"`
 	if [ "$FIND_MTSF_CRON" != "" ];then
 		echo "已经在计划任务里【${FIND_MTSF_CRON}】"
 	else
 		echo  "* * * * * /usr/bin/mtsf run > /tmp/mtsf.log"  > /var/spool/cron/crontabs/root
+		echo -e "${BLUE}添加任务成功!${CEND}"
 	fi
 
 	# 定义要添加的计划任务
@@ -481,7 +480,25 @@ MF_CRON_ADD(){
 }
 
 MF_CRON_DELETE(){
-	rm -rf /etc/cron.d/mtsf_cron
+	# rm -rf /etc/cron.d/mtsf_cron
+
+	# 要删除的命令
+	TARGET_CMD="mtsf run"
+
+	# 临时文件
+	TEMP_FILE=$(mktemp)
+
+	# 导出当前任务到临时文件
+	crontab -l > "$TEMP_FILE"
+
+	# 删除目标命令
+	sed -i "\|$TARGET_CMD|d" "$TEMP_FILE"
+
+	# 重新导入任务
+	crontab "$TEMP_FILE"
+
+	# 清理临时文件
+	# rm -rf "$TEMP_FILE"
 	# 检查
 	echo -e "${BLUE}删除任务成功!${CEND}"
 }
