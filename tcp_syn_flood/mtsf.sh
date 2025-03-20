@@ -16,7 +16,7 @@ ERROR=$RED'ERROR'${CEND}
 WORKING=$BLUE'*'${CEND}
 
 MF_VERSION(){
-	echo "mtsf - 0.0.24"
+	echo "mtsf - 0.0.26"
 }
 
 MF_GET_SUBNET(){
@@ -70,7 +70,7 @@ MF_BAN_DO(){
 	    # 5分钟后解封
 	    echo "iptables -D INPUT -s $SUBNET_IP -j DROP" | at now + 5 minutes
 	    echo "iptables -D OUTPUT -s $SUBNET_IP -j DROP" | at now + 5 minutes
-	    
+
 	    echo "${SUBNET_IP} 5分钟后解封"
 	else
 		echo "IP $SUBNET_IP 来自 $COUNTRY，已经封禁。"
