@@ -355,7 +355,7 @@ MF_UPDATE(){
 case "$1" in
     "run") RUN_CMD ;;
     "look") MF_LOOK ;;
-	"info") MF_TCP_INFO;;
+	"info" | "i") MF_TCP_INFO;;
 	"update" | "u") MF_UPDATE;;
 	"opt" | "o") MF_CONF_OPT;;
     *) iptables -L ;;
