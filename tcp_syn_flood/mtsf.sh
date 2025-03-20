@@ -462,6 +462,13 @@ MF_UPDATE(){
 
 MF_CRON_ADD(){
 	echo "debug"
+	# 定义要添加的计划任务
+	cron_job="* * * * * root /usr/bin/mtsf run"
+	# 将计划任务写入 /etc/cron.d/mtsf_cron
+	echo "$cron_job" | sudo tee /etc/cron.d/mtsf_cron > /dev/null
+	
+	# 检查
+	# grep CRON /var/log/syslog
 }
 
 case "$1" in
