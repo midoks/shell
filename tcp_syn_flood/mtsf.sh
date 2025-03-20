@@ -131,6 +131,7 @@ case "$1" in
     "look") MF_LOOK ;;
 	"info") MF_TCP_INFO;;
 	"update") MF_UPDATE;;
+	"u") MF_UPDATE;;
     *) iptables -L ;;
 esac
 
