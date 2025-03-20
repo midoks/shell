@@ -51,8 +51,6 @@ RUN_CMD(){
 		    echo "IP $IP 来自 $COUNTRY，允许访问。"
 		fi
 
-		return
-
 		# if [[ "$line" =~ "conntrack-tools" ]];then
 		# 	echo $line
 		# 	continue
@@ -108,7 +106,9 @@ MF_LOOK_TIME(){
 
 # 手动优化
 MF_HANDLE_OP(){
+	iptables -L -n
 	iptables -A INPUT -s 138.94.40.0/24 -j DROP
+	iptables -A INPUT -s 138.94.192.0/32 -j DROP
 }
 
 # 简单配置优化
