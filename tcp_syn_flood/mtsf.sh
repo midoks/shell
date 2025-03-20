@@ -14,7 +14,7 @@ ERROR=$RED'ERROR'${CEND}
 WORKING=$BLUE'*'${CEND}
 
 MF_VERSION(){
-	echo "mtsf - 0.0.6"
+	echo "mtsf - 0.0.7"
 }
 
 MF_GET_SUBNET(){
