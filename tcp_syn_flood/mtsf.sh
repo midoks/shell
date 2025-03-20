@@ -93,6 +93,49 @@ MF_CONF_OPT(){
 		ulimit -n 65535
 		echo -e "${GREEN}ulimit -n 65535${CEND}"
 	fi
+
+	# 设置TCP优化参数
+	echo "===== 开始优化TCP参数 ====="
+
+	# 接收和发送缓冲区大小
+	echo "设置接收和发送缓冲区大小..."
+	echo 16777216 > /proc/sys/net/core/rmem_max
+	echo 16777216 > /proc/sys/net/core/wmem_max
+	echo "4096 87380 16777216" > /proc/sys/net/ipv4/tcp_rmem
+	echo "4096 16384 16777216" > /proc/sys/net/ipv4/tcp_wmem
+
+	# 启用TCP窗口缩放和选择性确认
+	echo "启用TCP窗口缩放和选择性确认..."
+	echo 1 > /proc/sys/net/ipv4/tcp_window_scaling
+	echo 1 > /proc/sys/net/ipv4/tcp_sack
+
+	# 启用时间戳
+	echo "启用时间戳..."
+	echo 1 > /proc/sys/net/ipv4/tcp_timestamps
+
+	# 优化TIME-WAIT状态
+	echo "优化TIME-WAIT状态..."
+	echo 30 > /proc/sys/net/ipv4/tcp_fin_timeout
+	echo 1 > /proc/sys/net/ipv4/tcp_tw_reuse
+	echo 1 > /proc/sys/net/ipv4/tcp_tw_recycle
+	echo 65536 > /proc/sys/net/ipv4/tcp_max_tw_buckets
+
+	# 增加连接队列长度
+	echo "增加连接队列长度..."
+	echo 65536 > /proc/sys/net/ipv4/tcp_max_syn_backlog
+	echo 65535 > /proc/sys/net/core/somaxconn
+
+	# 启用SYN Cookies
+	echo "启用SYN Cookies..."
+	echo 1 > /proc/sys/net/ipv4/tcp_syncookies
+
+	# 优化Keepalive参数
+	echo "优化Keepalive参数..."
+	echo 600 > /proc/sys/net/ipv4/tcp_keepalive_time
+	echo 30 > /proc/sys/net/ipv4/tcp_keepalive_intvl
+	echo 3 > /proc/sys/net/ipv4/tcp_keepalive_probes
+
+	echo "===== TCP参数优化完成 ====="
 	echo -e "done!"
 }
 
