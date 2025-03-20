@@ -14,7 +14,7 @@ ERROR=$RED'ERROR'${CEND}
 WORKING=$BLUE'*'${CEND}
 
 MF_VERSION(){
-	echo "mtsf - 0.0.5"
+	echo "mtsf - 0.0.6"
 }
 
 MF_GET_SUBNET(){
@@ -39,6 +39,21 @@ MF_GET_SUBNET(){
 	# 添加掩码
 	SUBNET="$NETWORK/$MASK"
 	echo $SUBNET
+}
+
+MF_BAN_DO(){
+	SUBNET_IP="$1"
+	FIND_SUBNET_IP=`iptables -L -n | grep $SUBNET_IP`
+	if [[ "$FIND_SUBNET_IP" == "" ]];then
+		echo "IP $SUBNET_IP 来自 $COUNTRY，将被封禁5分钟。"
+	    # 封禁IP地址
+	    echo "iptables -A INPUT -s $SUBNET_IP -j DROP"
+	    iptables -A INPUT -s $SUBNET_IP -j DROP
+	    # 5分钟后解封
+	    echo "iptables -D INPUT -s $SUBNET_IP -j DROP" | at now + 5 minutes
+	else
+		echo "IP $SUBNET_IP 来自 $COUNTRY，已经封禁。"
+	fi
 }
 
 RUN_CMD(){
@@ -69,17 +84,23 @@ RUN_CMD(){
 
 		# 检查是否为目标国家
 		if [[ "$COUNTRY" != "CN" ]]; then
-			FIND_SUBNET_IP=`iptables -L -n | grep $SUBNET_IP`
-			if [[ "$FIND_SUBNET_IP" == "" ]];then
-				echo "IP $SUBNET_IP 来自 $COUNTRY，将被封禁5分钟。"
-			    # 封禁IP地址
-			    echo "iptables -A INPUT -s $SUBNET_IP -j DROP"
-			    iptables -A INPUT -s $SUBNET_IP -j DROP
-			    # 5分钟后解封
-			    echo "iptables -D INPUT -s $SUBNET_IP -j DROP" | at now + 5 minutes
-			else
-				echo "IP $SUBNET_IP 来自 $COUNTRY，已经封禁。"
-			fi
+
+			# ss -n state syn-recv -o
+			# 判断重试次数
+
+			MF_BAN_DO $SUBNET_IP
+
+			# FIND_SUBNET_IP=`iptables -L -n | grep $SUBNET_IP`
+			# if [[ "$FIND_SUBNET_IP" == "" ]];then
+			# 	echo "IP $SUBNET_IP 来自 $COUNTRY，将被封禁5分钟。"
+			#     # 封禁IP地址
+			#     echo "iptables -A INPUT -s $SUBNET_IP -j DROP"
+			#     iptables -A INPUT -s $SUBNET_IP -j DROP
+			#     # 5分钟后解封
+			#     echo "iptables -D INPUT -s $SUBNET_IP -j DROP" | at now + 5 minutes
+			# else
+			# 	echo "IP $SUBNET_IP 来自 $COUNTRY，已经封禁。"
+			# fi
 		else
 		    echo "IP $IP 来自 $COUNTRY，允许访问。"
 		fi
@@ -276,6 +297,8 @@ MF_CONF_OPT(){
 		echo 1 > /proc/sys/net/ipv4/tcp_tw_recycle
 	fi
 
+	# cat /proc/sys/net/ipv4/tcp_syn_retries
+
 	FIND_NI_tcp_max_tw_buckets=`cat /etc/sysctl.conf | grep net.ipv4.tcp_max_tw_buckets`
 	if [ "$FIND_NI_tcp_max_tw_buckets" == "" ];then
 		echo 65535 > /proc/sys/net/ipv4/tcp_max_tw_buckets
@@ -420,6 +443,10 @@ MF_UPDATE(){
 	curl -fsSL https://raw.githubusercontent.com/midoks/shell/refs/heads/main/tcp_syn_flood/install.sh | sh
 	MF_TCP_INFO
 	MF_VERSION
+}
+
+MF_CRON_ADD(){
+
 }
 
 case "$1" in
