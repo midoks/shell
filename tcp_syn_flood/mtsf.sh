@@ -118,10 +118,18 @@ MF_TCP_INFO(){
 	ss -s 
 }
 
+MF_UPDATE(){
+	if [ ! -f /usr/bin/mtsf ];then
+		rm -rf /usr/bin/mtsf
+	fi
+	curl -fsSL https://raw.githubusercontent.com/midoks/shell/refs/heads/main/tcp_syn_flood/install.sh | sh
+}
+
 case "$1" in
     "run") RUN_CMD ;;
     "look") MF_LOOK ;;
 	"info") MF_TCP_INFO;;
+	"update") MF_UPDATE;;
     *) iptables -L ;;
 esac
 
