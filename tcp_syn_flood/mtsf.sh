@@ -87,8 +87,13 @@ MF_SIMPLE_OPT(){
 
 # 配置优化命令
 MF_CONF_OPT(){
-	ulimit -n 65535
-	echo -e "${GREEN}ulimit -n 65535${CEND}"
+	ulimit_n=$(ulimit -n)
+
+	if [[ "$ulimit_n" -lt "65535" ]]; then
+		ulimit -n 65535
+		echo -e "${GREEN}ulimit -n 65535${CEND}"
+	fi
+	echo -e "done!"
 }
 
 MF_TCP_INFO(){
