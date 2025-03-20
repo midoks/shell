@@ -139,9 +139,19 @@ MF_CONF_OPT(){
 
 	echo "===== TCP参数优化完成 ====="
 
+	FIND_NC_default_qdisc=`cat /etc/sysctl.conf | grep net.core.default_qdisc`
+	if [ "$FIND_NC_default_qdisc" == "" ];then
+		echo "net.core.default_qdisc=fq" >> /etc/sysctl.conf
+	else
+		echo "net.core.tcp_congestion_control exist"
+	fi
 
-	# echo "net.core.default_qdisc=fq" >> /etc/sysctl.conf
-	# echo "net.ipv4.tcp_congestion_control=bbr" >> /etc/sysctl.conf
+	FIND_NC_tcp_congestion_control=`cat /etc/sysctl.conf | grep net.core.tcp_congestion_control`
+	if [ "$FIND_NC_tcp_congestion_control" == "" ];then
+		echo "net.core.tcp_congestion_control=bbr" >> /etc/sysctl.conf
+	else
+		echo "net.core.tcp_congestion_control exist"
+	fi
 	sysctl -p
 
 	echo -e "done!"
