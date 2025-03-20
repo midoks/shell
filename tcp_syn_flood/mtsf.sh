@@ -31,7 +31,13 @@ RUN_CMD(){
 		echo $line
 		SRC_IP=$(echo "$line" | awk '{print $5}' | cut -d= -f2)
 
+		# 获取IP地址
+		SS_IP=$(echo $SRC_IP | cut -d ':' -f 1)
 		echo "SRC_IP:$SRC_IP"
+		echo "SS_IP:$SS_IP"
+
+		COUNTRY=`geoiplookup $SS_IP | awk -F ': ' '{print $2}' | awk -F ',' '{print $1}'`
+		echo "COUNTRY:$COUNTRY"
 		# if [[ "$line" =~ "conntrack-tools" ]];then
 		# 	echo $line
 		# 	continue
