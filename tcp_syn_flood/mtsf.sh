@@ -83,7 +83,7 @@ RUN_CMD(){
 	CURRENT_TIME=$(date +%s)
 
 	# 获取所有 SYN_RECV 状态的连接
-	netstat -an | grep SYN_RECV | while read line; do
+	# netstat -an | grep SYN_RECV | while read line; do
 	netstat -an | grep tcp | while read line; do
 		# echo $line
 		SRC_IP=$(echo "$line" | awk '{print $5}' | cut -d= -f2)
