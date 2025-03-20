@@ -273,6 +273,25 @@ MF_CONF_OPT(){
 		echo -e "${GREEN}ulimit -n 65535${CEND}"
 
 
+		ROOT_SOFT_LIMIT="root soft nofile 65535"
+		ROOT_HARD_LIMIT="root hard nofile 65535"
+
+		if grep -q "^root soft nofile" /etc/security/limits.conf; then
+		    # 如果已存在 soft nofile 配置，则替换
+		    sed -i '/^root soft nofile/c\'"$ROOT_SOFT_LIMIT" /etc/security/limits.conf
+		else
+		    # 如果不存在，则追加
+		    echo "$ROOT_SOFT_LIMIT" >> /etc/security/limits.conf
+		fi
+
+		if grep -q "^root hard nofile" /etc/security/limits.conf; then
+		    # 如果已存在 soft nofile 配置，则替换
+		    sed -i '/^root hard nofile/c\'"$ROOT_HARD_LIMIT" /etc/security/limits.conf
+		else
+		    # 如果不存在，则追加
+		    echo "$ROOT_HARD_LIMIT" >> /etc/security/limits.conf
+		fi
+
 		# 定义要添加的配置
 		SOFT_LIMIT="* soft nofile 65535"
 		HARD_LIMIT="* hard nofile 65535"
