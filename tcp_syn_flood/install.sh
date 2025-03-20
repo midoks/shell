@@ -16,4 +16,6 @@ if [ ! -f /usr/bin/mtsf ];then
 	chmod +x /usr/bin/mtsf
 fi
 
+mtsf v
+
 echo "install mtsf end"
