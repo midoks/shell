@@ -166,10 +166,11 @@ RUN_CMD(){
 }
 
 MF_LOOK(){
-	netstat -an|grep tcp
+	# netstat -an|grep tcp
 	# netstat -an|grep SYN_RECV
 	watch -n 1 'netstat -an|grep SYN_RECV'
-	watch -n 1 'netstat -an|grep TIME_WAIT'
+	# watch -n 1 'netstat -an|grep TIME_WAIT'
+	# watch -n 2 'netstat -an|grep tcp'
 	# geoiplookup 138.94.195.6 | awk -F ': ' '{print $2}' | awk -F ',' '{print $1}'
 	# geoiplookup 218.26.157.158 | awk -F ': ' '{print $2}' | awk -F ',' '{print $1}'
 	
