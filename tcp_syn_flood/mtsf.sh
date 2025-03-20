@@ -202,12 +202,12 @@ MF_CONF_OPT(){
 		echo "net.ipv4.tcp_max_syn_backlog exist!"
 	fi
 
-	FIND_NI_somaxconn=`cat /etc/sysctl.conf | grep net.ipv4.somaxconn`
+	FIND_NC_somaxconn=`cat /etc/sysctl.conf | grep net.core.somaxconn`
 	if [ "$FIND_NI_somaxconn" == "" ];then
 		echo 65535 > /proc/sys/net/core/somaxconn
-		echo "net.ipv4.somaxconn = 65535" >> /etc/sysctl.conf
+		echo "net.core.somaxconn = 65535" >> /etc/sysctl.conf
 	else
-		echo "net.ipv4.somaxconn exist!"
+		echo "net.core.somaxconn exist!"
 	fi
 
 	# 启用SYN Cookies
