@@ -71,6 +71,29 @@ MF_BAN_DO(){
 	fi
 }
 
+MF_BAN_DO1(){
+	SUBNET_IP="$1"
+	FIND_SUBNET_IP=`iptables -L -n | grep $SUBNET_IP`
+	if [[ "$FIND_SUBNET_IP" == "" ]];then
+		echo "IP $SUBNET_IP 来自 $COUNTRY，将被封禁5分钟。"
+	    # 封禁IP地址
+	    echo "iptables -A INPUT -s $SUBNET_IP -j DROP"
+
+	    IPTABLES_CMD=$(which iptables)
+		if [ -z "$IPTABLES_CMD" ]; then
+		    echo "iptables 未安装或未找到，请先安装 iptables。"
+		    exit 1
+		fi
+	    echo "${IPTABLES_CMD} -A INPUT -s $SUBNET_IP -j DROP"
+	    ${IPTABLES_CMD} -A INPUT -s $SUBNET_IP -j DROP
+	    # 5分钟后解封
+	    echo "iptables -D INPUT -s $SUBNET_IP -j DROP" | at now + 1 minutes
+	    echo "${SUBNET_IP} 1分钟后解封"
+	else
+		echo "IP $SUBNET_IP 来自 $COUNTRY，已经封禁。"
+	fi
+}
+
 RUN_CMD(){
 	# 设置超时时间（秒）
 	TIMEOUT=3
@@ -127,13 +150,13 @@ RUN_CMD(){
 			NUMS=`netstat -an|grep tcp | grep $IP_PREFIX_STR | wc -l`
 			echo "NUMS:$NUMS"
 
-			# 规则1 , 138.94.192 同网段下超过2个，大概率为攻击方
-			if [[ "$NUMS" -gt 2 ]];then
-				MF_BAN_DO $SUBNET_IP
+			# 国内连接数太多，IP封禁1分钟
+			if [[ "$NUMS" -gt 5 ]];then
+				MF_BAN_DO1 $SUBNET_IP
+				echo "IP $IP 来自 $COUNTRY，连接数太多,IP封禁1分钟。"
+			else
+				echo "IP $IP 来自 $COUNTRY，允许访问。"
 			fi
-
-
-		    echo "IP $IP 来自 $COUNTRY，允许访问。"
 		fi
 	done
 }
