@@ -80,9 +80,15 @@ MF_HANDLE_OP(){
 }
 
 # 简单配置优化
-MF_SIMPLE_OP(){
+MF_SIMPLE_OPT(){
 	iptables -A INPUT -p tcp --syn -m limit --limit 5/s -j ACCEPT
 	iptables -A INPUT -p tcp --syn -j DROP
+}
+
+# 配置优化命令
+MF_CONF_OPT(){
+	ulimit -n 65535
+	echo -e "${GREEN}ulimit -n 65535${CEND}"
 }
 
 MF_TCP_INFO(){
@@ -131,6 +137,7 @@ case "$1" in
     "look") MF_LOOK ;;
 	"info") MF_TCP_INFO;;
 	"update") MF_UPDATE;;
+	"opt") MF_CONF_OPT;;
 	"u") MF_UPDATE;;
     *) iptables -L ;;
 esac
