@@ -88,7 +88,7 @@ MF_SIMPLE_OPT(){
 # 配置优化命令
 MF_CONF_OPT(){
 	ulimit_n=$(ulimit -n)
-
+	echo $ulimit_n
 	if [[ "$ulimit_n" -lt "65535" ]]; then
 		ulimit -n 65535
 		echo -e "${GREEN}ulimit -n 65535${CEND}"
@@ -136,6 +136,13 @@ MF_CONF_OPT(){
 	echo 3 > /proc/sys/net/ipv4/tcp_keepalive_probes
 
 	echo "===== TCP参数优化完成 ====="
+
+
+
+
+	# echo "net.core.default_qdisc=fq" >> /etc/sysctl.conf
+	# echo "net.ipv4.tcp_congestion_control=bbr" >> /etc/sysctl.conf
+
 	echo -e "done!"
 }
 
