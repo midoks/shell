@@ -461,14 +461,19 @@ MF_UPDATE(){
 }
 
 MF_CRON_ADD(){
-	echo "debug"
 	# 定义要添加的计划任务
 	cron_job="* * * * * root /usr/bin/mtsf run"
 	# 将计划任务写入 /etc/cron.d/mtsf_cron
 	echo "$cron_job" | sudo tee /etc/cron.d/mtsf_cron > /dev/null
-	
+
 	# 检查
 	# grep CRON /var/log/syslog
+}
+
+MF_CRON_DELETE(){
+	rm -rf /etc/cron.d/mtsf_cron
+	# 检查
+	echo -e "${BLUE}删除任务成功!${CEND}"
 }
 
 case "$1" in
@@ -478,6 +483,7 @@ case "$1" in
 	"update" | "u") MF_UPDATE;;
 	"opt" | "o") MF_CONF_OPT;;
 	"cron_add" ) MF_CRON_ADD;;
+	"cron_del" ) MF_CRON_ADD;;
 	"version" | "v") MF_VERSION;;
     *) iptables -L -n;;
 esac
