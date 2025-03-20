@@ -356,10 +356,8 @@ case "$1" in
     "run") RUN_CMD ;;
     "look") MF_LOOK ;;
 	"info") MF_TCP_INFO;;
-	"update") MF_UPDATE;;
-	"o") MF_CONF_OPT;;
-	"opt") MF_CONF_OPT;;
-	"u") MF_UPDATE;;
+	"update" | "u") MF_UPDATE;;
+	"opt" | "o") MF_CONF_OPT;;
     *) iptables -L ;;
 esac
 
