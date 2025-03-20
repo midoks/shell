@@ -1,5 +1,19 @@
 #!/bin/bash
 
+RED="\033[31m"
+GREEN="\033[32m"
+YELLOW="\033[33m"
+BLUE="\033[34m"
+PLAIN="\033[0m"
+BOLD="\033[1m"
+CEND="\033[0m"
+SUCCESS=$GREEN'OK'${CEND}
+COMPLETE=$GREEN'DONE'${CEND}
+WARN=$YELLOW'WARN'${CEND}
+ERROR=$RED'ERROR'${CEND}
+WORKING=$BLUE'*'${CEND}
+
+
 RUN_CMD(){
 	# 设置超时时间（秒）
 	TIMEOUT=3
@@ -95,7 +109,13 @@ MF_TCP_INFO(){
 	echo "TCP内存限制: $tcp_mem_max_mb MB"
 	echo "最大TCP连接数: $max_connections"
 
-	echo "当前TCP连接数: $max_connections"
+	cur_max_connections=`cat /proc/net/tcp | wc -l`
+	echo "当前TCP连接数: ${cur_max_connections} [cat /proc/net/tcp | wc -l]"
+	cur_max_connections2=`netstat -an | grep tcp | wc -l`
+	echo "当前TCP连接数[2]: ${cur_max_connections2} [netstat -an | grep tcp | wc -l]"
+
+	echo -e "${RED}ss -s${PLAIN}"
+	ss -s 
 }
 
 case "$1" in
