@@ -365,8 +365,8 @@ MF_UPDATE(){
 }
 
 case "$1" in
-    "run") RUN_CMD ;;
-    "look") MF_LOOK ;;
+    "run" | "r") RUN_CMD ;;
+    "look" | "l") MF_LOOK ;;
 	"info" | "i") MF_TCP_INFO;;
 	"update" | "u") MF_UPDATE;;
 	"opt" | "o") MF_CONF_OPT;;
