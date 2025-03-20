@@ -94,6 +94,8 @@ MF_TCP_INFO(){
 	echo "文件描述符限制: $fd_limit"
 	echo "TCP内存限制: $tcp_mem_max_mb MB"
 	echo "最大TCP连接数: $max_connections"
+
+	echo "当前TCP连接数: $max_connections"
 }
 
 case "$1" in
