@@ -30,10 +30,10 @@ RUN_CMD(){
 	netstat -an | grep SYN_RECV | while read line; do
 		echo $line
 		SRC_IP=$(echo "$line" | awk '{print $5}' | cut -d= -f2)
+		# echo "SRC_IP:$SRC_IP"
 
 		# 获取IP地址
 		IP=$(echo $SRC_IP | cut -d ':' -f 1)
-		echo "SRC_IP:$SRC_IP"
 		echo "IP:$IP"
 
 		COUNTRY=`geoiplookup $IP | awk -F ': ' '{print $2}' | awk -F ',' '{print $1}'`
