@@ -32,12 +32,26 @@ RUN_CMD(){
 		SRC_IP=$(echo "$line" | awk '{print $5}' | cut -d= -f2)
 
 		# 获取IP地址
-		SS_IP=$(echo $SRC_IP | cut -d ':' -f 1)
+		IP=$(echo $SRC_IP | cut -d ':' -f 1)
 		echo "SRC_IP:$SRC_IP"
-		echo "SS_IP:$SS_IP"
+		echo "IP:$IP"
 
-		COUNTRY=`geoiplookup $SS_IP | awk -F ': ' '{print $2}' | awk -F ',' '{print $1}'`
+		COUNTRY=`geoiplookup $IP | awk -F ': ' '{print $2}' | awk -F ',' '{print $1}'`
 		echo "COUNTRY:$COUNTRY"
+
+		# 检查是否为目标国家
+		if [[ "$COUNTRY" != "CN" ]]; then
+		    echo "IP $IP 来自 $TARGET_COUNTRY，将被封禁5分钟。"
+		    # 封禁IP地址
+		    iptables -A INPUT -s $IP -j DROP
+		    # 5分钟后解封
+		    echo "iptables -D INPUT -s $IP -j DROP" | at now + 5 minutes
+		else
+		    echo "IP $IP 来自 $COUNTRY，允许访问。"
+		fi
+
+		return
+
 		# if [[ "$line" =~ "conntrack-tools" ]];then
 		# 	echo $line
 		# 	continue
