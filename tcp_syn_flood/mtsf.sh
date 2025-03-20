@@ -395,7 +395,7 @@ case "$1" in
 	"update" | "u") MF_UPDATE;;
 	"opt" | "o") MF_CONF_OPT;;
 	"version" | "v") MF_VERSION;;
-    *) iptables -L ;;
+    *) iptables -L -n;;
 esac
 
 
