@@ -139,6 +139,8 @@ MF_CONF_OPT(){
 
 	echo "===== TCP参数优化完成 ====="
 
+	echo "===== BBR配置 ====="
+
 	FIND_NC_default_qdisc=`cat /etc/sysctl.conf | grep net.core.default_qdisc`
 	if [ "$FIND_NC_default_qdisc" == "" ];then
 		echo "net.core.default_qdisc=fq" >> /etc/sysctl.conf
@@ -152,6 +154,8 @@ MF_CONF_OPT(){
 	else
 		echo "net.ipv4.tcp_congestion_control exist"
 	fi
+	echo "===== BBR配置结束 ====="
+	
 	sysctl -p
 
 	echo -e "done!"
