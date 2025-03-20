@@ -68,16 +68,21 @@ RUN_CMD(){
 		echo "SUBNET_IP:$SUBNET_IP"
 
 		# 检查是否为目标国家
-		# if [[ "$COUNTRY" != "CN" ]]; then
-		#     echo "IP $IP 来自 $COUNTRY，将被封禁5分钟。"
-		#     # 封禁IP地址
-		#     echo "iptables -A INPUT -s $IP -j DROP"
-		#     iptables -A INPUT -s $IP -j DROP
-		#     # 5分钟后解封
-		#     echo "iptables -D INPUT -s $IP -j DROP" | at now + 5 minutes
-		# else
-		#     echo "IP $IP 来自 $COUNTRY，允许访问。"
-		# fi
+		if [[ "$COUNTRY" != "CN" ]]; then
+			FIND_SUBNET_IP=`iptables -L -n | grep $SUBNET_IP`
+			if [[ "$FIND_SUBNET_IP" == "" ]];then
+				echo "IP $SUBNET_IP 来自 $COUNTRY，将被封禁5分钟。"
+			    # 封禁IP地址
+			    echo "iptables -A INPUT -s $SUBNET_IP -j DROP"
+			    iptables -A INPUT -s $SUBNET_IP -j DROP
+			    # 5分钟后解封
+			    echo "iptables -D INPUT -s $SUBNET_IP -j DROP" | at now + 5 minutes
+			else
+				echo "IP $SUBNET_IP 来自 $COUNTRY，已经封禁。"
+			fi
+		else
+		    echo "IP $IP 来自 $COUNTRY，允许访问。"
+		fi
 
 		# if [[ "$line" =~ "conntrack-tools" ]];then
 		# 	echo $line
@@ -137,6 +142,7 @@ MF_HANDLE_OP(){
 	iptables -L -n
 	iptables -A INPUT -s 138.94.40.0/24 -j DROP
 	iptables -A INPUT -s 138.94.192.0/32 -j DROP
+	iptables -A INPUT -s 138.94.193.0/32 -j DROP
 }
 
 # 简单配置优化
