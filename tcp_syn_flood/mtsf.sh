@@ -462,12 +462,19 @@ MF_UPDATE(){
 }
 
 MF_CRON_ADD(){
-	# 定义要添加的计划任务
-	cron_job="* * * * * /usr/bin/mtsf run > /tmp/mtsf.log" 
+	
 
-	# echo  "* * * * * /usr/bin/mtsf run > /tmp/mtsf.log"  > /var/spool/cron/crontabs/root
+	FIND_MTSF_CRON=`cat /var/spool/cron/crontabs/root | grep "mtsf run"`
+	if [ "$FIND_MTSF_CRON" != "" ];then
+		echo "已经在计划任务里【${FIND_MTSF_CRON}】"
+	else
+		echo  "* * * * * /usr/bin/mtsf run > /tmp/mtsf.log"  > /var/spool/cron/crontabs/root
+	fi
+
+	# 定义要添加的计划任务
+	# cron_job="* * * * * /usr/bin/mtsf run > /tmp/mtsf.log"
 	# 将计划任务写入 /etc/cron.d/mtsf_cron
-	echo "$cron_job" | sudo tee /etc/cron.d/mtsf_cron > /dev/null
+	# echo "$cron_job" | sudo tee /etc/cron.d/mtsf_cron > /dev/null
 
 	# 检查
 	# grep CRON /var/log/syslog
