@@ -515,26 +515,19 @@ MF_CRON_ADD(){
 
 MF_CRON_DELETE(){
 	# rm -rf /etc/cron.d/mtsf_cron
-
 	# 要删除的命令
 	TARGET_CMD="mtsf run"
-
 	# 临时文件
 	TEMP_FILE=$(mktemp)
-
 	# 导出当前任务到临时文件
 	crontab -l > "$TEMP_FILE"
-
 	# 删除目标命令
 	sed -i "\|$TARGET_CMD|d" "$TEMP_FILE"
-
 	# 重新导入任务
 	crontab "$TEMP_FILE"
-
 	# 清理临时文件
 	rm -f "$TEMP_FILE"
 	# echo "TEMP_FILE:$TEMP_FILE"
-	# 检查
 	echo -e "${BLUE}删除mtsf任务成功!${CEND}"
 }
 
