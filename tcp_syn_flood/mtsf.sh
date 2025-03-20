@@ -63,8 +63,7 @@ MF_BAN_DO(){
 		    exit 1
 		fi
 	    echo "${IPTABLES_CMD} -A INPUT -s $SUBNET_IP -j DROP"
-	    ${IPTABLES_CMD} -A INPUT -s $SUBNET_IP -j DROP > /tmp/t.log 2>&1
-	    echo $?
+	    ${IPTABLES_CMD} -A INPUT -s $SUBNET_IP -j DROP
 	    # 5分钟后解封
 	    echo "iptables -D INPUT -s $SUBNET_IP -j DROP" | at now + 5 minutes
 	    echo "${SUBNET_IP} 5分钟后解封"
