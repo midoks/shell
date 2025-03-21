@@ -23,7 +23,12 @@ if [ ! -f /usr/bin/mtsf ];then
 	chmod +x /usr/bin/mtsf
 fi
 
-mtsf cron_add
+CHOICE_IS_ADD_CRON=$(echo -e "\n是否加入计划任务执行[Y/N]:")
+read -p "${CHOICE_IS_ADD_CRON}" INPUT
+
+echo "INPUT:$INPUT"
+
+# mtsf cron_add
 mtsf v
 
 
