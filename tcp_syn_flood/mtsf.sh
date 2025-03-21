@@ -246,7 +246,7 @@ MF_LOOK2(){
 }
 
 
-MF_LOOK_SS(){
+MF_LOOK3(){
 	# ss -n state syn-recv -o
 	watch -n 1 'ss -n state syn-recv -o'
 }
@@ -611,7 +611,8 @@ MF_CRON_LOG(){
 case "$1" in
     "run" | "r") RUN_CMD ;;
     "look" | "l") MF_LOOK ;;
-	"l2" | "l2") MF_LOOK2 ;;
+	"l2") MF_LOOK2 ;;
+	"l3") MF_LOOK3 ;;
 	"info" | "i") MF_TCP_INFO;;
 	"update" | "u") MF_UPDATE;;
 	"opt" | "o") MF_CONF_OPT;;
