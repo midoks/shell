@@ -512,7 +512,8 @@ MF_CONF_OPT(){
 	fi
 
 	NET_ETH=`route -n|awk '/^0.0.0.0/ {print $8}' |uniq`
-
+	ifconfig ${NET_ETH} mtu 9000
+	echo "启用巨帧（Jumbo Frames）[ifconfig ${NET_ETH} mtu 9000]"
 	
 	echo -e "done!"
 }
