@@ -554,7 +554,8 @@ MF_TCP_INFO(){
 	echo "-------------------------socket-------------------------"
 
 	echo -e "${RED}ss -s${PLAIN}"
-	ss -s 
+	ss -s
+	iptables -L -n
 }
 
 MF_UPDATE(){
