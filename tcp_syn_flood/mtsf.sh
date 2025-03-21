@@ -653,6 +653,7 @@ case "$1" in
 	"cron_add" ) MF_CRON_ADD;;
 	"cron_del" ) MF_CRON_DELETE;;
 	"log" ) MF_CRON_LOG;;
+	"net" ) MF_CONF_NET_MBPS;;
 	"version" | "v") MF_VERSION;;
 	"t" ) MF_T;;
     *) iptables -L -n;;
