@@ -241,6 +241,11 @@ MF_LOOK(){
 	
 }
 
+MF_LOOK2(){
+	watch -n 2 'netstat -an|grep tcp'
+}
+
+
 MF_LOOK_SS(){
 	# ss -n state syn-recv -o
 	watch -n 1 'ss -n state syn-recv -o'
@@ -606,6 +611,7 @@ MF_CRON_LOG(){
 case "$1" in
     "run" | "r") RUN_CMD ;;
     "look" | "l") MF_LOOK ;;
+	"l2" | "l2") MF_LOOK ;;
 	"info" | "i") MF_TCP_INFO;;
 	"update" | "u") MF_UPDATE;;
 	"opt" | "o") MF_CONF_OPT;;
