@@ -508,11 +508,11 @@ MF_CONF_OPT(){
 
 	FIND_IRQ=`which irqbalance`
 	if [ "$FIND_IRQ" != "" ];then
-		echo "Linux系统中用于优化中断请求分配的工具"
+		echo "Linux系统中用于优化中断请求分配的工具[irqbalance]存在"
 	fi
 
 	NET_ETH=`route -n|awk '/^0.0.0.0/ {print $8}' |uniq`
-	
+
 	
 	echo -e "done!"
 }
