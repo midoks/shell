@@ -243,6 +243,7 @@ MF_LOOK(){
 
 MF_LOOK2(){
 	watch -n 2 'netstat -an| grep tcp|grep -v "127.0.0.1" | grep -v "LISTEN"'
+	# netstat -an | grep tcp | grep -v "127.0.0.1" | grep -v "LISTEN" | awk '{print $5}' | sort | uniq -c
 }
 
 
