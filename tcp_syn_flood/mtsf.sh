@@ -508,15 +508,15 @@ MF_CONF_NET_MBPS(){
 	NET_ETH=`route -n|awk '/^0.0.0.0/ {print $8}' |uniq`
 
 	# 获取当前接收和发送的字节数
-	RX_BYTES=$(cat /sys/class/net/$INTERFACE/statistics/rx_bytes)
-	TX_BYTES=$(cat /sys/class/net/$INTERFACE/statistics/tx_bytes)
+	RX_BYTES=$(cat /sys/class/net/$NET_ETH/statistics/rx_bytes)
+	TX_BYTES=$(cat /sys/class/net/$NET_ETH/statistics/tx_bytes)
 
 	# 等待 1 秒
 	sleep 1
 
 	# 获取 1 秒后的接收和发送字节数
-	RX_BYTES_NEW=$(cat /sys/class/net/$INTERFACE/statistics/rx_bytes)
-	TX_BYTES_NEW=$(cat /sys/class/net/$INTERFACE/statistics/tx_bytes)
+	RX_BYTES_NEW=$(cat /sys/class/net/$NET_ETH/statistics/rx_bytes)
+	TX_BYTES_NEW=$(cat /sys/class/net/$NET_ETH/statistics/tx_bytes)
 
 	# 计算 1 秒内的接收和发送带宽（单位：字节/秒）
 	RX_BW=$((RX_BYTES_NEW - RX_BYTES))
