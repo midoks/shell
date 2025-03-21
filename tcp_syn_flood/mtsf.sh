@@ -67,8 +67,8 @@ MF_BAN_DO(){
 	   	# iptables -A INPUT -s 192.3.171.0/24 -j DROP
 	   	# iptables -A INPUT -s 192.3.171.0/24 -j DROP
 
-	   	# iptables -A OUTPUT -s 192.3.171.0/24 -j DROP
-	   	# iptables -A OUTPUT -s 192.3.171.0/24 -j DROP
+	   	# iptables -D OUTPUT -s 192.3.171.0/24 -j DROP
+	   	# iptables -D OUTPUT -s 192.3.171.0/24 -j DROP
 
 	    echo "${IPTABLES_CMD} -A OUTPUT -d $SUBNET_IP -j DROP"
 	    ${IPTABLES_CMD} -A OUTPUT -d $SUBNET_IP -j DROP
