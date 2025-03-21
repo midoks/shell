@@ -659,7 +659,9 @@ MF_UPDATE(){
 	if [ -f /usr/bin/mtsf ];then
 		rm -rf /usr/bin/mtsf
 	fi
-	curl -fsSL https://raw.githubusercontent.com/midoks/shell/refs/heads/main/tcp_syn_flood/install.sh | sh
+	
+	bash <(curl -fsSL https://raw.githubusercontent.com/midoks/shell/refs/heads/main/tcp_syn_flood/install.sh)
+
 	MF_TCP_INFO
 	MF_VERSION
 }

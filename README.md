@@ -6,13 +6,13 @@
 
 -  安装
 ```
-curl -fsSL https://raw.githubusercontent.com/midoks/shell/refs/heads/main/tcp_syn_flood/install.sh| sh
+bash <(curl -fsSL https://raw.githubusercontent.com/midoks/shell/refs/heads/main/tcp_syn_flood/install.sh)
 ```
 
 - 卸载
 
 ```
-curl -fsSL https://raw.githubusercontent.com/midoks/shell/refs/heads/main/tcp_syn_flood/uninstall.sh| sh
+bash <(curl -fsSL https://raw.githubusercontent.com/midoks/shell/refs/heads/main/tcp_syn_flood/uninstall.sh)
 ```
 
 - 命令
