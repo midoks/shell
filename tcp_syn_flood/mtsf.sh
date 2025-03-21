@@ -611,7 +611,7 @@ MF_CRON_LOG(){
 case "$1" in
     "run" | "r") RUN_CMD ;;
     "look" | "l") MF_LOOK ;;
-	"l2" | "l2") MF_LOOK ;;
+	"l2" | "l2") MF_LOOK2 ;;
 	"info" | "i") MF_TCP_INFO;;
 	"update" | "u") MF_UPDATE;;
 	"opt" | "o") MF_CONF_OPT;;
