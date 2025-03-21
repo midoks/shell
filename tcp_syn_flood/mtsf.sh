@@ -527,7 +527,7 @@ MF_CONF_NET_MBPS(){
 	TX_BW_MBPS=$((TX_BW * 8 / 1000000))
 
 	# 总带宽使用率
-	BYTES_T=$((TX_BW + TX_BW)/1024)
+	BYTES_T=$(((TX_BW + TX_BW)/1024))
 	TOTAL_BW_MBPS=$((BYTES_T*8/1000000))
 	echo "当前使用使用率:${BYTES_T}kb-${TOTAL_BW_MBPS}"
 }
