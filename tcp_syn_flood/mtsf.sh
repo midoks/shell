@@ -251,6 +251,11 @@ MF_LOOK3(){
 	watch -n 1 'ss -n state syn-recv -o'
 }
 
+MF_LOOK4(){
+	# ss -n state syn-recv -o
+	watch -n 1 'mtsf i'
+}
+
 MF_LOOK_TIME(){
 	netstat -tnop | grep SYN_RECV | awk '{print $5,$9}'
 }
@@ -613,6 +618,7 @@ case "$1" in
     "look" | "l") MF_LOOK ;;
 	"l2") MF_LOOK2 ;;
 	"l3") MF_LOOK3 ;;
+	"l4") MF_LOOK4 ;;
 	"info" | "i") MF_TCP_INFO;;
 	"update" | "u") MF_UPDATE;;
 	"opt" | "o") MF_CONF_OPT;;
