@@ -256,6 +256,11 @@ MF_LOOK4(){
 	watch -n 1 'mtsf i'
 }
 
+MF_LOOK5(){
+	# ss -n state syn-recv -o
+	watch -n 1 'mtsf look_simple'
+}
+
 MF_LOOK_TIME(){
 	netstat -tnop | grep SYN_RECV | awk '{print $5,$9}'
 }
@@ -587,6 +592,59 @@ MF_TCP_INFO(){
 	iptables -L -n
 }
 
+MF_LOOK_SIMPLE(){
+	# 获取本地端口范围
+	read port_min port_max < /proc/sys/net/ipv4/ip_local_port_range
+	port_count=$((port_max - port_min + 1))
+
+	# 获取文件描述符限制
+	file_max=$(cat /proc/sys/fs/file-max)
+	ulimit_n=$(ulimit -n)
+	fd_limit=$((file_max < ulimit_n ? file_max : ulimit_n))
+
+	# 获取TCP内存限制（以页为单位，1页=4KB）
+	read tcp_mem_min tcp_mem_pressure tcp_mem_max < /proc/sys/net/ipv4/tcp_mem
+	tcp_mem_max_kb=$((tcp_mem_max * 4))
+	tcp_mem_max_mb=$((tcp_mem_max_kb / 1024))
+
+	# 计算最大TCP连接数
+	max_connections=$((port_count < fd_limit ? port_count : fd_limit))
+
+	# 输出结果
+	echo "本地端口范围: $port_min - $port_max (可用端口: $port_count)"
+	echo "文件描述符限制: $fd_limit"
+	echo "TCP内存限制: $tcp_mem_max_mb MB"
+	echo "最大TCP连接数: $max_connections"
+
+	cur_max_connections=`cat /proc/net/tcp | wc -l`
+	echo "当前TCP连接数: ${cur_max_connections} [cat /proc/net/tcp | wc -l]"
+	cur_max_connections2=`netstat -an | grep tcp | wc -l`
+	echo "当前TCP连接数[2]: ${cur_max_connections2} [netstat -an | grep tcp | wc -l]"
+
+	cur_syn_recv=`netstat -an|grep SYN_RECV | wc -l`
+	echo "当前TCP{SYN_RECV}连接数: ${cur_syn_recv} [netstat -an|grep SYN_RECV | wc -l]"
+	MF_CONF_NET_MBPS
+
+	sockstat=$(cat /proc/net/sockstat)
+	# 提取关键信息
+	sockets_used=$(echo "$sockstat" | grep 'sockets:' | awk '{print $3}')
+	tcp_inuse=$(echo "$sockstat" | grep 'TCP:' | awk '{print $3}')
+	tcp_mem=$(echo "$sockstat" | grep 'TCP:' | awk '{print $NF}')
+	udp_inuse=$(echo "$sockstat" | grep 'UDP:' | awk '{print $3}')
+	udp_mem=$(echo "$sockstat" | grep 'UDP:' | awk '{print $NF}')
+
+	# 输出结果
+	echo "-------------------------socket-------------------------"
+	echo "总套接字数: $sockets_used"
+	echo "TCP 连接数: $tcp_inuse"
+	echo "TCP 内存占用: $((tcp_mem * 4)) KB"
+	echo "UDP 连接数: $udp_inuse"
+	echo "UDP 内存占用: $((udp_mem * 4)) KB"
+	echo "-------------------------socket-------------------------"
+
+
+}
+
 MF_UPDATE(){
 	if [ -f /usr/bin/mtsf ];then
 		rm -rf /usr/bin/mtsf
@@ -646,9 +704,12 @@ MF_CRON_LOG(){
 case "$1" in
     "run" | "r") RUN_CMD ;;
     "look" | "l") MF_LOOK ;;
+	"look_simple") MF_LOOK_SIMPLE ;;
 	"l2") MF_LOOK2 ;;
 	"l3") MF_LOOK3 ;;
 	"l4") MF_LOOK4 ;;
+	"l4") MF_LOOK4 ;;
+	"l5") MF_LOOK5 ;;
 	"info" | "i") MF_TCP_INFO;;
 	"update" | "u") MF_UPDATE;;
 	"opt" | "o") MF_CONF_OPT;;
