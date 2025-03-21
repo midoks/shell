@@ -530,7 +530,7 @@ MF_CONF_NET_MBPS(){
 	BYTES_T=$((TX_BW + TX_BW))
 	KB_T=$((BYTES_T/1024))
 	TOTAL_BW_MBPS=$((BYTES_T*8/1000000))
-	echo "当前网络使用:${KB_T}KB-${TOTAL_BW_MBPS}MBPS"
+	echo "当前网络使用:${KB_T}KB-${TOTAL_BW_MBPS}Mbps"
 }
 
 MF_TCP_INFO(){
