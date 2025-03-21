@@ -503,9 +503,14 @@ MF_CONF_OPT(){
 		echo "net.ipv4.tcp_congestion_control exist"
 	fi
 	echo "===== BBR配置完成 ====="
-
 	sysctl -p
 
+
+	FIND_IRQ=`which irqbalance`
+	if [ "$FIND_IRQ" != "" ];then
+		echo "Linux系统中用于优化中断请求分配的工具"
+	fi
+	
 	echo -e "done!"
 }
 

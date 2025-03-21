@@ -14,6 +14,7 @@ which apt && apt install -y iptables
 which apt && apt install -y iftop
 which apt && apt install -y bc
 which apt && apt install -y ethtool
+which apt && apt install -y irqbalance
 
 # which apt && apt install -y tcpdump
 
