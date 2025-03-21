@@ -528,7 +528,7 @@ MF_CONF_NET_MBPS(){
 
 	# 总带宽使用率
 	TOTAL_BW_MBPS=$((RX_BW_MBPS + TX_BW_MBPS))
-	echo "总带宽使用率:${TOTAL_BW_MBPS}"
+	echo "当前使用带宽使用率:${TOTAL_BW_MBPS}"
 }
 
 MF_TCP_INFO(){
