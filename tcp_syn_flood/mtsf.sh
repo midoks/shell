@@ -504,6 +504,33 @@ MF_CONF_OPT(){
 	echo -e "done!"
 }
 
+MF_CONF_NET_MBPS(){
+	NET_ETH=`route -n|awk '/^0.0.0.0/ {print $8}' |uniq`
+
+	# 获取当前接收和发送的字节数
+	RX_BYTES=$(cat /sys/class/net/$INTERFACE/statistics/rx_bytes)
+	TX_BYTES=$(cat /sys/class/net/$INTERFACE/statistics/tx_bytes)
+
+	# 等待 1 秒
+	sleep 1
+
+	# 获取 1 秒后的接收和发送字节数
+	RX_BYTES_NEW=$(cat /sys/class/net/$INTERFACE/statistics/rx_bytes)
+	TX_BYTES_NEW=$(cat /sys/class/net/$INTERFACE/statistics/tx_bytes)
+
+	# 计算 1 秒内的接收和发送带宽（单位：字节/秒）
+	RX_BW=$((RX_BYTES_NEW - RX_BYTES))
+	TX_BW=$((TX_BYTES_NEW - TX_BYTES))
+
+	# 转换为 Mbps（1 字节 = 8 位，1 Mbps = 1,000,000 位）
+	RX_BW_MBPS=$((RX_BW * 8 / 1000000))
+	TX_BW_MBPS=$((TX_BW * 8 / 1000000))
+
+	# 总带宽使用率
+	TOTAL_BW_MBPS=$((RX_BW_MBPS + TX_BW_MBPS))
+	echo "总带宽使用率:${TOTAL_BW_MBPS}"
+}
+
 MF_TCP_INFO(){
 	# 获取本地端口范围
 	read port_min port_max < /proc/sys/net/ipv4/ip_local_port_range
