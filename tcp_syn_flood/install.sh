@@ -11,6 +11,8 @@ which apt && apt install -y conntrack
 which apt && apt install -y geoip-bin
 which apt && apt install -y at
 which apt && apt install -y iptables
+which apt && apt install -y iftop
+
 # which apt && apt install -y tcpdump
 
 if [ ! -f /usr/bin/mtsf ];then
