@@ -776,6 +776,34 @@ MF_TO_CUBIC(){
 	sysctl net.ipv4.tcp_congestion_control
 }
 
+MF_TO_BBR(){
+	# 检查当前 TCP 拥塞控制算法
+	current_algorithm=$(sysctl -n net.ipv4.tcp_congestion_control)
+	echo "当前 TCP 拥塞控制算法: $current_algorithm"
+
+	# 如果当前算法是 BBR，则替换为 CUBIC
+	if [[ "$current_algorithm" == "cubic" ]]; then
+	    echo "正在将 TCP 拥塞控制算法从 BBR 替换为 CUBIC..."
+
+	    # 临时修改为 CUBIC
+	    sudo sysctl -w net.ipv4.tcp_congestion_control=cubic
+
+	    # 永久修改（写入配置文件）
+	    if ! grep -q "net.ipv4.tcp_congestion_control=bbr" /etc/sysctl.conf; then
+	        echo "net.ipv4.tcp_congestion_control=bbr" | sudo tee -a /etc/sysctl.conf > /dev/null
+	    fi
+
+	    # 重新加载配置
+	    sudo sysctl -p
+	    echo "TCP 拥塞控制算法已成功替换为 BBR"
+	    echo "当前算法不是CUBIC无需替换"
+	fi
+
+	# 验证修改结果
+	echo "修改后的 TCP 拥塞控制算法："
+	sysctl net.ipv4.tcp_congestion_control
+}
+
 case "$1" in
     "run" | "r") RUN_CMD ;;
     "look" | "l") MF_LOOK ;;
@@ -793,6 +821,7 @@ case "$1" in
 	"log" ) MF_CRON_LOG;;
 	"net" ) MF_CONF_NET_MBPS;;
 	"to_cubic" ) MF_TO_CUBIC;;
+	"to_bbr" ) MF_TO_BBR;;
 	"version" | "v") MF_VERSION;;
 	"t" ) MF_T;;
     *) iptables -L -n;;
