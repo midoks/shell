@@ -670,6 +670,9 @@ MF_LOOK_SIMPLE(){
 
 	cur_syn_recv=`netstat -an|grep SYN_RECV | wc -l`
 	echo "当前TCP{SYN_RECV}连接数: ${cur_syn_recv} [netstat -an|grep SYN_RECV | wc -l]"
+
+	current_algorithm=$(sysctl -n net.ipv4.tcp_congestion_control)
+	echo "当前TCP控制算法: ${current_algorithm}"
 	MF_CONF_NET_MBPS
 
 	sockstat=$(cat /proc/net/sockstat)
