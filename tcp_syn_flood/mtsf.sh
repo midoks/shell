@@ -759,9 +759,12 @@ MF_TO_CUBIC(){
 	    # 临时修改为 CUBIC
 	    sudo sysctl -w net.ipv4.tcp_congestion_control=cubic
 
+	    old_setting="net.ipv4.tcp_congestion_control=bbr"
+		new_setting="net.ipv4.tcp_congestion_control=cubic"
+
 	    # 永久修改（写入配置文件）
 	    if ! grep -q "net.ipv4.tcp_congestion_control=cubic" /etc/sysctl.conf; then
-	        echo "net.ipv4.tcp_congestion_control=cubic" | sudo tee -a /etc/sysctl.conf > /dev/null
+	        sed -i "s/^$old_setting/$new_setting/" /etc/sysctl.conf
 	    fi
 
 	    # 重新加载配置
