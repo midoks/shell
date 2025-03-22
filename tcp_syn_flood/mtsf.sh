@@ -539,6 +539,13 @@ MF_CONF_OPT(){
 	ifconfig ${NET_ETH} mtu 9000
 	echo "===启用巨帧（Jumbo Frames）[ifconfig ${NET_ETH} mtu 9000]==="
 
+	cpu_num=`grep -c "processor" /proc/cpuinfo`
+
+	echo ${cpu_num} | sudo tee /sys/class/net/eth0/queues/rx-0/rps_cpus
+
+	echo "===启用 RPS[echo ${cpu_num} | tee /sys/class/net/${NET_ETH}/queues/rx-0/rps_cpus]==="
+	echo "===启用 RFS[echo 32768 | tee /sys/class/net/${NET_ETH}/queues/rx-0/rps_cpus]==="
+
 	echo "===当前接口的LRO状态[ethtool -k ${NET_ETH} | grep large-receive-offload]==="
 
 	# ethtool -K ${NET_ETH} gro on
