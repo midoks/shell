@@ -41,9 +41,8 @@ if [ "$FIND_MTSF_CRON" == "" ];then
 fi
 
 mtsf o
-
+mtsf
 mtsf v
 
 # mtsf to_cubic
 
-echo "install mtsf end"
