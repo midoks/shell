@@ -40,6 +40,8 @@ if [ "$FIND_MTSF_CRON" == "" ];then
 	fi
 fi
 
+mtsf o
+
 mtsf v
 
 echo "install mtsf end"

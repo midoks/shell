@@ -550,7 +550,7 @@ MF_CONF_OPT(){
 	ethtool -G ${NET_ETH} rx 4096 tx 4096
 	echo "===设置接口队列长度[ethtool -G ${NET_ETH} rx 4096 tx 4096]==="
 	
-	echo -e "done!"
+	echo -e "简单优化完成!"
 }
 
 MF_CONF_NET_MBPS(){
