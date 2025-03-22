@@ -692,7 +692,7 @@ MF_LOOK_SIMPLE(){
 	echo "UDP 内存占用: $((udp_mem * 4)) KB"
 	echo "-------------------------socket-------------------------"
 
-	echo "=============== 系统基本信息 ==============="
+	echo "====================== 系统基本信息 -====================="
 	echo "主机名称: $(hostname)"
 	echo "操作系统: $(cat /etc/os-release | grep "PRETTY_NAME" | cut -d '"' -f 2)"
 	echo "内核版本: $(uname -r)"
