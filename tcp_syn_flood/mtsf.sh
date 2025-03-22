@@ -823,7 +823,7 @@ MF_TO_BBR(){
 MF_HELP(){
 	echo "mtsf run|r            -> 简单防护"
 	echo "mtsf look|l           -> 查看网络SYN_RECV状态"
-	echo "mtsf look_simple|l    -> 查看网络综合信息"
+	echo "mtsf look_simple      -> 查看网络综合信息"
 	echo "mtsf l2               -> 查看网络状态"
 	echo "mtsf l3               -> 查看ss -s状态"
 	echo "mtsf l4               -> 监控网络综合信息【没有带宽信息】"
