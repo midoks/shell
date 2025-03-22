@@ -30,15 +30,15 @@ if [ ! -f /var/spool/cron/crontabs/root ];then
 fi
 
 
-FIND_MTSF_CRON=`cat /var/spool/cron/crontabs/root | grep "mtsf run"`
-if [ "$FIND_MTSF_CRON" == "" ];then
-	CHOICE_IS_ADD_CRON=$(echo -e "\n是否加入计划任务执行[Y/N]:")
-	read -p "${CHOICE_IS_ADD_CRON}" INPUT
-	# echo "INPUT:$INPUT"
-	if [ "$INPUT" == "Y" ];then
-		mtsf cron_add
-	fi
-fi
+# FIND_MTSF_CRON=`cat /var/spool/cron/crontabs/root | grep "mtsf run"`
+# if [ "$FIND_MTSF_CRON" == "" ];then
+# 	CHOICE_IS_ADD_CRON=$(echo -e "\n是否加入计划任务执行[Y/N]:")
+# 	read -p "${CHOICE_IS_ADD_CRON}" INPUT
+# 	# echo "INPUT:$INPUT"
+# 	if [ "$INPUT" == "Y" ];then
+# 		mtsf cron_add
+# 	fi
+# fi
 
 mtsf o
 mtsf
