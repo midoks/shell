@@ -809,6 +809,11 @@ MF_TO_BBR(){
 	sysctl net.ipv4.tcp_congestion_control
 }
 
+MF_HELP(){
+	echo "mtsf run       -> 简单防护"
+	echo "mtsf look|l    -> 查看网络SYN_RECV状态"
+}
+
 case "$1" in
     "run" | "r") RUN_CMD ;;
     "look" | "l") MF_LOOK ;;
@@ -829,7 +834,8 @@ case "$1" in
 	"to_bbr" ) MF_TO_BBR;;
 	"version" | "v") MF_VERSION;;
 	"t" ) MF_T;;
-    *) iptables -L -n;;
+	"iptable_look") iptables -L -n;;
+	*) MF_HELP;;
 esac
 
 
