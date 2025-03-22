@@ -757,7 +757,7 @@ MF_TO_CUBIC(){
 	    echo "正在将 TCP 拥塞控制算法从 BBR 替换为 CUBIC..."
 
 	    # 临时修改为 CUBIC
-	    sudo sysctl -w net.ipv4.tcp_congestion_control=cubic
+	    sysctl -w net.ipv4.tcp_congestion_control=cubic
 
 	    old_setting="net.ipv4.tcp_congestion_control=bbr"
 		new_setting="net.ipv4.tcp_congestion_control=cubic"
