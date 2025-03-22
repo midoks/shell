@@ -614,6 +614,9 @@ MF_TCP_INFO(){
 	cur_syn_recv=`netstat -an|grep SYN_RECV | wc -l`
 	echo "当前TCP{SYN_RECV}连接数: ${cur_syn_recv} [netstat -an|grep SYN_RECV | wc -l]"
 
+	current_algorithm=$(sysctl -n net.ipv4.tcp_congestion_control)
+	echo "当前TCP控制算法: ${current_algorithm}"
+
 	sockstat=$(cat /proc/net/sockstat)
 	# 提取关键信息
 	sockets_used=$(echo "$sockstat" | grep 'sockets:' | awk '{print $3}')
