@@ -520,9 +520,13 @@ MF_CONF_OPT(){
 		echo "Linux系统中用于优化中断请求分配的工具[irqbalance]存在"
 	fi
 
+
 	NET_ETH=`route -n|awk '/^0.0.0.0/ {print $8}' |uniq`
 	ifconfig ${NET_ETH} mtu 9000
-	echo "启用巨帧（Jumbo Frames）[ifconfig ${NET_ETH} mtu 9000]"
+	echo "===启用巨帧（Jumbo Frames）[ifconfig ${NET_ETH} mtu 9000]==="
+
+	ethtool -G ${NET_ETH} rx 4096 tx 4096
+	echo "===设置接口队列长度[thtool -G ${NET_ETH} rx 4096 tx 4096]==="
 	
 	echo -e "done!"
 }
