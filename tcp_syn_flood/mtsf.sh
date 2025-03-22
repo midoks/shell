@@ -714,7 +714,7 @@ MF_CRON_ADD(){
 	# 定义要添加的计划任务
 	# cron_job="* * * * * /usr/bin/mtsf run > /tmp/mtsf.log"
 	# 将计划任务写入 /etc/cron.d/mtsf_cron
-	# echo "$cron_job" | sudo tee /etc/cron.d/mtsf_cron > /dev/null
+	# echo "$cron_job" | tee /etc/cron.d/mtsf_cron > /dev/null
 
 	# 检查
 	# grep CRON /var/log/syslog
