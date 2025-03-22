@@ -374,6 +374,14 @@ MF_CONF_OPT(){
 		echo "net.ipv4.tcp_wmem exist!"
 	fi
 
+	FIND_NI_tcp_fastopen=`cat /etc/sysctl.conf | grep net.ipv4.tcp_fastopen`
+	if [ "$FIND_NI_tcp_fastopen" == "" ];then
+		echo "3" > /proc/sys/net/ipv4/tcp_fastopen
+		echo "net.ipv4.tcp_fastopen = 3" >> /etc/sysctl.conf
+	else
+		echo "net.ipv4.tcp_fastopen exist!"
+	fi
+
 	# 启用TCP窗口缩放和选择性确认
 	echo "启用TCP窗口缩放和选择性确认..."
 	FIND_NI_tcp_window_scaling=`cat /etc/sysctl.conf | grep net.ipv4.tcp_window_scaling`
