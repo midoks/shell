@@ -746,7 +746,7 @@ MF_CRON_ADD(){
 MF_CRON_DELETE(){
 	FIND_MTSF_CRON=`cat /var/spool/cron/crontabs/root | grep "mtsf run"`
 	if [ "$FIND_MTSF_CRON" == "" ];then
-		echo -e "${BLUE}已经删除mtsf任务成功!${CEND}"
+		echo -e "${BLUE}已经删除mtsf任务!${CEND}"
 		return
 	fi
 
