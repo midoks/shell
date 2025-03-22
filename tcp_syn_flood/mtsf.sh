@@ -747,7 +747,7 @@ MF_CRON_LOG(){
 	cat /tmp/mtsf.log
 }
 
-MF_TO_SYS_CUBIC(){
+MF_TO_CUBIC(){
 	# 检查当前 TCP 拥塞控制算法
 	current_algorithm=$(sysctl -n net.ipv4.tcp_congestion_control)
 	echo "当前 TCP 拥塞控制算法: $current_algorithm"
@@ -792,6 +792,7 @@ case "$1" in
 	"cron_del" ) MF_CRON_DELETE;;
 	"log" ) MF_CRON_LOG;;
 	"net" ) MF_CONF_NET_MBPS;;
+	"to_cubic" ) MF_TO_CUBIC;;
 	"version" | "v") MF_VERSION;;
 	"t" ) MF_T;;
     *) iptables -L -n;;
