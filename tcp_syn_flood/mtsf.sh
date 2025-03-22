@@ -744,6 +744,13 @@ MF_CRON_ADD(){
 }
 
 MF_CRON_DELETE(){
+	FIND_MTSF_CRON=`cat /var/spool/cron/crontabs/root | grep "mtsf run"`
+	if [ "$FIND_MTSF_CRON" == "" ];then
+		echo -e "${BLUE}已经删除mtsf任务成功!${CEND}"
+		route
+	fi
+
+
 	# rm -rf /etc/cron.d/mtsf_cron
 	# 要删除的命令
 	TARGET_CMD="mtsf run"
