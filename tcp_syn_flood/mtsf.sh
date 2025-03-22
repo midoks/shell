@@ -796,6 +796,7 @@ MF_TO_BBR(){
 	    # 重新加载配置
 	    sudo sysctl -p
 	    echo "TCP 拥塞控制算法已成功替换为 BBR"
+	else
 	    echo "当前算法不是CUBIC无需替换"
 	fi
 
