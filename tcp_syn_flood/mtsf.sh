@@ -697,7 +697,6 @@ MF_UPDATE(){
 	bash <(curl -fsSL https://raw.githubusercontent.com/midoks/shell/refs/heads/main/tcp_syn_flood/install.sh)
 
 	MF_TCP_INFO
-	MF_VERSION
 }
 
 MF_CRON_ADD(){
