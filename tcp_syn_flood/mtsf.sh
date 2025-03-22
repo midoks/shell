@@ -541,7 +541,7 @@ MF_CONF_OPT(){
 
 	cpu_num=`grep -c "processor" /proc/cpuinfo`
 
-	echo ${cpu_num} | sudo tee /sys/class/net/${NET_ETH}/queues/rx-0/rps_cpus
+	echo ${cpu_num} | tee /sys/class/net/${NET_ETH}/queues/rx-0/rps_cpus
 
 	echo "===启用 RPS[echo ${cpu_num} | tee /sys/class/net/${NET_ETH}/queues/rx-0/rps_cpus]==="
 	echo "===启用 RFS[echo 32768 | tee /sys/class/net/${NET_ETH}/queues/rx-0/rps_cpus]==="
