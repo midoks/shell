@@ -810,8 +810,25 @@ MF_TO_BBR(){
 }
 
 MF_HELP(){
-	echo "mtsf run       -> 简单防护"
-	echo "mtsf look|l    -> 查看网络SYN_RECV状态"
+	echo "mtsf run              -> 简单防护"
+	echo "mtsf look|l           -> 查看网络SYN_RECV状态"
+	echo "mtsf look_simple|l    -> 查看网络综合信息"
+	echo "mtsf l2               -> 查看网络状态"
+	echo "mtsf l3               -> 查看ss -s状态"
+	echo "mtsf l4               -> 监控网络综合信息【没有带宽信息】"
+	echo "mtsf l5               -> 监控网络综合信息【有带宽信息】"
+	echo "mtsf info|i           -> 查看网络综合信息"
+	echo "mtsf update|u         -> 更新脚本"
+	echo "mtsf opt|o            -> 简单优化系统配置"
+	echo "mtsf cron_add         -> 添加计划任务【简单防护】"
+	echo "mtsf cron_del         -> 删除计划任务【简单防护】"
+	echo "mtsf log              -> 简单防护日志"
+	echo "mtsf net              -> 网络带宽信息"
+	echo "mtsf to_cubic         -> bbr替换成cubic"
+	echo "mtsf to_bbr           -> cubic替换成bbr"
+	echo "mtsf version|v        -> 版本信息"
+	echo "mtsf t                -> 测试脚本"
+	echo "mtsf iptable_look     -> 防火墙查看"
 }
 
 case "$1" in
