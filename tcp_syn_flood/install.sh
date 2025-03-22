@@ -16,7 +16,7 @@ which apt && apt install -y bc
 which apt && apt install -y ethtool
 which apt && apt install -y irqbalance
 which apt && apt install -y cron
-which apt && apt install -y ntpd
+which apt && apt install -y ntp
 # ntpd
 # which apt && apt install -y tcpdump
 
