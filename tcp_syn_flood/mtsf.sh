@@ -400,6 +400,14 @@ MF_CONF_OPT(){
 		echo "net.ipv4.tcp_sack exist!"
 	fi
 
+	FIND_NI_tcp_dsack=`cat /etc/sysctl.conf | grep net.ipv4.tcp_dsack`
+	if [ "$FIND_NI_tcp_dsack" == "" ];then
+		echo 1 > /proc/sys/net/ipv4/tcp_dsack
+		echo "net.ipv4.tcp_dsack = 1" >> /etc/sysctl.conf
+	else
+		echo "net.ipv4.tcp_dsack exist!"
+	fi
+
 	# 启用时间戳
 	echo "启用时间戳..."
 	FIND_NI_tcp_timestamps=`cat /etc/sysctl.conf | grep net.ipv4.tcp_timestamps`
