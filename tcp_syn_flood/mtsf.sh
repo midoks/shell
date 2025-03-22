@@ -525,6 +525,14 @@ MF_CONF_OPT(){
 	ifconfig ${NET_ETH} mtu 9000
 	echo "===启用巨帧（Jumbo Frames）[ifconfig ${NET_ETH} mtu 9000]==="
 
+	echo "===当前接口的LRO状态[ethtool -k ${NET_ETH} | grep large-receive-offload]==="
+
+	ethtool -K ${NET_ETH} gro on
+	echo "===设置接口队列长度[ethtool -K ${NET_ETH} gro on]==="
+
+	ethtool -K ${NET_ETH} gro on
+	echo "===设置接口队列长度[ethtool -K ${NET_ETH} lro on]==="
+
 	ethtool -G ${NET_ETH} rx 4096 tx 4096
 	echo "===设置接口队列长度[thtool -G ${NET_ETH} rx 4096 tx 4096]==="
 	
