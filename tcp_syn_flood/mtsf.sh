@@ -542,8 +542,8 @@ MF_CONF_OPT(){
 	cpu_num=`grep -c "processor" /proc/cpuinfo`
 
 	echo ${cpu_num} | tee /sys/class/net/${NET_ETH}/queues/rx-0/rps_cpus
-
 	echo "===启用 RPS[echo ${cpu_num} | tee /sys/class/net/${NET_ETH}/queues/rx-0/rps_cpus]==="
+	echo 32768 | tee /sys/class/net/${NET_ETH}/queues/rx-0/rps_cpus
 	echo "===启用 RFS[echo 32768 | tee /sys/class/net/${NET_ETH}/queues/rx-0/rps_cpus]==="
 
 	echo "===当前接口的LRO状态[ethtool -k ${NET_ETH} | grep large-receive-offload]==="
