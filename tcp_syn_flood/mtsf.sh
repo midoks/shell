@@ -429,7 +429,13 @@ MF_CONF_OPT(){
 	fi
 
 	if [ -d /proc/sys/net/ipv4/tcp_tw_recycle ];then
-		echo 1 > /proc/sys/net/ipv4/tcp_tw_recycle
+		FIND_NI_tcp_tw_recycle=`cat /etc/sysctl.conf | grep net.ipv4.tcp_tw_recycle`
+		if [ "$FIND_NI_tcp_tw_recycle" == "" ];then
+			echo 1 > /proc/sys/net/ipv4/tcp_tw_recycle
+			echo "net.ipv4.tcp_tw_recycle = 1" >> /etc/sysctl.conf
+		else
+			echo "net.ipv4.tcp_tw_recycle exist!"
+		fi
 	fi
 
 	# cat /proc/sys/net/ipv4/tcp_syn_retries
@@ -534,7 +540,7 @@ MF_CONF_OPT(){
 	echo "===设置接口队列长度[ethtool -K ${NET_ETH} lro on]==="
 
 	ethtool -G ${NET_ETH} rx 4096 tx 4096
-	echo "===设置接口队列长度[thtool -G ${NET_ETH} rx 4096 tx 4096]==="
+	echo "===设置接口队列长度[ethtool -G ${NET_ETH} rx 4096 tx 4096]==="
 	
 	echo -e "done!"
 }
