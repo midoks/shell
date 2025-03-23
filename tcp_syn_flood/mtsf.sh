@@ -545,15 +545,11 @@ MF_CONF_OPT(){
 	echo "===手动启用RPS[echo ${cpu_num} | tee /sys/class/net/${NET_ETH}/queues/rx-0/rps_cpus]==="
 	# echo 32768 | tee /sys/class/net/${NET_ETH}/queues/rx-0/rps_flow_cnt
 	echo "===手动启用RFS[echo 32768 | tee /sys/class/net/${NET_ETH}/queues/rx-0/rps_flow_cnt]==="
-
-	echo "===当前接口的LRO状态[ethtool -k ${NET_ETH} | grep large-receive-offload]==="
-
+	echo "===查看当前接口的LRO状态[ethtool -k ${NET_ETH} | grep large-receive-offload]==="
 	# ethtool -K ${NET_ETH} gro on
 	echo "===手动设置接口队列长度[ethtool -K ${NET_ETH} gro on]==="
-
 	# ethtool -K ${NET_ETH} lro on
 	echo "===手动设置接口队列长度[ethtool -K ${NET_ETH} lro on]==="
-
 	# ethtool -G ${NET_ETH} rx 4096 tx 4096
 	echo "===手动设置接口队列长度[ethtool -G ${NET_ETH} rx 4096 tx 4096]==="
 	
