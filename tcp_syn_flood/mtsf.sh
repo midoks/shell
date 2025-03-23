@@ -428,7 +428,7 @@ MF_CONF_OPT(){
 		echo "net.ipv4.tcp_fin_timeout exist!"
 	fi
 
-	echo "优化TIME-WAIT状态..."
+	echo "优化ip_local_port_range设置..."
 	FIND_NI_ip_local_port_range=`cat /etc/sysctl.conf | grep net.ipv4.ip_local_port_range`
 	if [ "$FIND_NI_ip_local_port_range" == "" ];then
 		echo 1024 65000 > /proc/sys/net/ipv4/ip_local_port_range
