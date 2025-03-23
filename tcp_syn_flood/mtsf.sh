@@ -428,6 +428,15 @@ MF_CONF_OPT(){
 		echo "net.ipv4.tcp_fin_timeout exist!"
 	fi
 
+	echo "优化TIME-WAIT状态..."
+	FIND_NI_ip_local_port_range=`cat /etc/sysctl.conf | grep net.ipv4.ip_local_port_range`
+	if [ "$FIND_NI_ip_local_port_range" == "" ];then
+		echo 1024 65000 > /proc/sys/net/ipv4/ip_local_port_range
+		echo "net.ipv4.ip_local_port_range = 1024  65000" >> /etc/sysctl.conf
+	else
+		echo "net.ipv4.ip_local_port_range exist!"
+	fi
+
 	# 允许将TIME-WAIT【sockets】重新用于新的TCP连接
 	FIND_NI_tcp_tw_reuse=`cat /etc/sysctl.conf | grep net.ipv4.tcp_tw_reuse`
 	if [ "$FIND_NI_tcp_tw_reuse" == "" ];then
