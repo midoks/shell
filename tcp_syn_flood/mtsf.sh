@@ -432,7 +432,7 @@ MF_CONF_OPT(){
 	FIND_NI_ip_local_port_range=`cat /etc/sysctl.conf | grep net.ipv4.ip_local_port_range`
 	if [ "$FIND_NI_ip_local_port_range" == "" ];then
 		echo 1024 65000 > /proc/sys/net/ipv4/ip_local_port_range
-		echo "net.ipv4.ip_local_port_range = 1024  65000" >> /etc/sysctl.conf
+		echo "net.ipv4.ip_local_port_range = 1024 65000" >> /etc/sysctl.conf
 	else
 		echo "net.ipv4.ip_local_port_range exist!"
 	fi
