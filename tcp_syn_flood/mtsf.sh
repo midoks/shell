@@ -428,6 +428,7 @@ MF_CONF_OPT(){
 		echo "net.ipv4.tcp_fin_timeout exist!"
 	fi
 
+	# 允许将TIME-WAIT【sockets】重新用于新的TCP连接
 	FIND_NI_tcp_tw_reuse=`cat /etc/sysctl.conf | grep net.ipv4.tcp_tw_reuse`
 	if [ "$FIND_NI_tcp_tw_reuse" == "" ];then
 		echo 1 > /proc/sys/net/ipv4/tcp_tw_reuse
@@ -436,6 +437,7 @@ MF_CONF_OPT(){
 		echo "net.ipv4.tcp_tw_reuse exist!"
 	fi
 
+	# 开启TCP连接中TIME-WAIT【sockets】的快速回收
 	if [ -d /proc/sys/net/ipv4/tcp_tw_recycle ];then
 		FIND_NI_tcp_tw_recycle=`cat /etc/sysctl.conf | grep net.ipv4.tcp_tw_recycle`
 		if [ "$FIND_NI_tcp_tw_recycle" == "" ];then
