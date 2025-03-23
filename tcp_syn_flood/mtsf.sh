@@ -412,8 +412,8 @@ MF_CONF_OPT(){
 	echo "启用时间戳..."
 	FIND_NI_tcp_timestamps=`cat /etc/sysctl.conf | grep net.ipv4.tcp_timestamps`
 	if [ "$FIND_NI_tcp_timestamps" == "" ];then
-		echo 1 > /proc/sys/net/ipv4/tcp_timestamps
-		echo "net.ipv4.tcp_timestamps = 1" >> /etc/sysctl.conf
+		echo 0 > /proc/sys/net/ipv4/tcp_timestamps
+		echo "net.ipv4.tcp_timestamps = 0" >> /etc/sysctl.conf
 	else
 		echo "net.ipv4.tcp_timestamps exist!"
 	fi
