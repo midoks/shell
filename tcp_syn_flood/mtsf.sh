@@ -752,6 +752,9 @@ MF_LOOK_SIMPLE(){
 	echo "系统时间: $(date)"
 	echo "运行时间: $(uptime -p)"
 
+	echo "====================== 防火墙信息 -====================="
+	iptables -L -n
+
 }
 
 MF_UPDATE(){
