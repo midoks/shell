@@ -235,7 +235,7 @@ RUN_CMD_FOREACH(){
 
 	# 记录开始时间（Unix 时间戳）
 	start_time=$(date +%s)
-	timeout=50  # 1 分钟超时
+	timeout=50  # 50s 超时
 
 	while true; do
 
