@@ -24,4 +24,5 @@ mtsf opt|o      -> 简单的配置优化
 mtsf update|u   -> 更新到最新版
 mtsf cron_add   -> 添加到计划任务
 mtsf cron_del   -> 从计划任务删除
+mtsf            -> 显示所有命令
 ```
