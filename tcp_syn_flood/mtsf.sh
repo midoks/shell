@@ -507,8 +507,8 @@ MF_CONF_OPT(){
 	echo "优化Keepalive参数..."
 	FIND_NI_tcp_keepalive_time=`cat /etc/sysctl.conf | grep net.ipv4.tcp_keepalive_time`
 	if [ "$FIND_NI_tcp_keepalive_time" == "" ];then
-		echo 300 > /proc/sys/net/ipv4/tcp_keepalive_time
-		echo "net.ipv4.tcp_keepalive_time = 300" >> /etc/sysctl.conf
+		echo 180 > /proc/sys/net/ipv4/tcp_keepalive_time
+		echo "net.ipv4.tcp_keepalive_time = 180" >> /etc/sysctl.conf
 	else
 		echo "net.ipv4.tcp_keepalive_time exist!"
 	fi
