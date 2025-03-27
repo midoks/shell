@@ -679,7 +679,6 @@ MF_TCP_INFO(){
 	udp_mem=$(echo "$sockstat" | grep 'UDP:' | awk '{print $NF}')
 
 	# 输出结果
-	echo "-------------------------socket-------------------------"
 	echo "总套接字数: $sockets_used"
 	echo "TCP 连接数: $tcp_inuse"
 	echo "TCP 内存占用: $((tcp_mem * 4)) KB"
@@ -743,7 +742,6 @@ MF_LOOK_SIMPLE(){
 	echo "TCP 内存占用: $((tcp_mem * 4)) KB"
 	echo "UDP 连接数: $udp_inuse"
 	echo "UDP 内存占用: $((udp_mem * 4)) KB"
-	echo "-------------------------socket-------------------------"
 
 	echo "====================== 系统基本信息 ======================"
 	echo "主机名称: $(hostname)"
