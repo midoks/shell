@@ -226,7 +226,38 @@ RUN_CMD(){
 	CURRENT_TIME=$(date +%s)
 
 	# SYN_RECV攻击
-	RUN_CMD_SYN_RECV
+	# RUN_CMD_SYN_RECV
+	RUN_CMD_FOREACH
+	
+}
+
+RUN_CMD_FOREACH(){
+
+	# 记录开始时间（Unix 时间戳）
+	start_time=$(date +%s)
+	timeout=50  # 1 分钟超时
+
+	while true; do
+
+		# SYN_RECV攻击
+		RUN_CMD_SYN_RECV
+
+	    # 执行你的命令（示例：打印当前时间）
+	    echo "[$(date '+%H:%M:%S')] 执行任务..."
+
+	    # 检查是否超过 1 分钟
+	    current_time=$(date +%s)
+	    elapsed=$((current_time - start_time))
+	    if [ "$elapsed" -ge "$timeout" ]; then
+	        echo "已运行1分钟，退出循环。"
+	        break
+	    fi
+	    # 暂停 2 秒
+	    sleep 2
+	done
+
+
+	
 	
 }
 
