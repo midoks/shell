@@ -266,6 +266,10 @@ MF_LOOK5(){
 	watch -n 1 'mtsf look_simple'
 }
 
+MF_LOOK6(){
+	ss -nto | grep ESTAB | awk '{if ($6 ~ /sec/) {split($6, a, "sec"); if (a[1] > 30) print $5, $6}}'
+}
+
 MF_LOOK_TIME(){
 	netstat -tnop | grep SYN_RECV | awk '{print $5,$9}'
 }
@@ -503,16 +507,16 @@ MF_CONF_OPT(){
 	echo "优化Keepalive参数..."
 	FIND_NI_tcp_keepalive_time=`cat /etc/sysctl.conf | grep net.ipv4.tcp_keepalive_time`
 	if [ "$FIND_NI_tcp_keepalive_time" == "" ];then
-		echo 600 > /proc/sys/net/ipv4/tcp_keepalive_time
-		echo "net.ipv4.tcp_keepalive_time = 600" >> /etc/sysctl.conf
+		echo 300 > /proc/sys/net/ipv4/tcp_keepalive_time
+		echo "net.ipv4.tcp_keepalive_time = 300" >> /etc/sysctl.conf
 	else
 		echo "net.ipv4.tcp_keepalive_time exist!"
 	fi
 
 	FIND_NI_tcp_keepalive_intvl=`cat /etc/sysctl.conf | grep net.ipv4.tcp_keepalive_intvl`
 	if [ "$FIND_NI_tcp_keepalive_intvl" == "" ];then
-		echo 30 > /proc/sys/net/ipv4/tcp_keepalive_intvl
-		echo "net.ipv4.tcp_keepalive_intvl = 30" >> /etc/sysctl.conf
+		echo 15 > /proc/sys/net/ipv4/tcp_keepalive_intvl
+		echo "net.ipv4.tcp_keepalive_intvl = 15" >> /etc/sysctl.conf
 	else
 		echo "net.ipv4.tcp_keepalive_intvl exist!"
 	fi
