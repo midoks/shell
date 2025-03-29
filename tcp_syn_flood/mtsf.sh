@@ -706,7 +706,7 @@ MF_TCP_RERADIO3(){
 	    delta_retrans=$((retrans - prev_retrans))
 
 	    # 计算重传率
-	    if [ "$sent" -gt 0 ]; then
+	    if [ "$delta_sent" -gt 0 ]; then
 	        retrans_rate=$(echo "scale=4; $delta_retrans / $delta_sent * 100" | bc)
 	        status="无需优化"
 
