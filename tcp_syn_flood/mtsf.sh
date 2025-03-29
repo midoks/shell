@@ -782,6 +782,7 @@ MF_LOOK_SIMPLE(){
 
 	current_algorithm=$(sysctl -n net.ipv4.tcp_congestion_control)
 	echo "当前TCP控制算法: ${current_algorithm}"
+	MF_TCP_RERADIO
 	MF_TCP_RERADIO2
 	MF_CONF_NET_MBPS
 	
