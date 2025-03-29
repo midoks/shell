@@ -672,7 +672,7 @@ MF_TCP_RERADIO2(){
     delta_sent=$((sent - prev_sent))
     delta_retrans=$((retrans - prev_retrans))
 
-	if [ "$sent" -gt 0 ]; then
+	if [ "$delta_sent" -gt 0 ]; then
         retrans_rate=$(echo "scale=4; $delta_retrans / $delta_sent * 100" | bc)
         status="无需优化"
 
