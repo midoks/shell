@@ -635,6 +635,18 @@ MF_CONF_NET_MBPS(){
 	echo "当前网络使用:${KB_T}KB/s - ${TOTAL_BW_MBPS}Mbps"
 }
 
+# TCP重传率
+MF_TCP_RERADIO(){
+	sent=$(netstat -s | awk '/segments sent out/ {print $1}')
+	retrans=$(netstat -s | awk '/segments retransmitted/ {print $1}')
+	if [ "$sent" -gt 0 ]; then
+    retrans_rate=$(echo "scale=4; $retrans / $sent * 100" | bc)
+	    echo "TCP Retransmission Rate: $retrans_rate%"
+	else
+	    echo "No data sent, cannot calculate retransmission rate."
+	fi
+}
+
 MF_TCP_INFO(){
 	# 获取本地端口范围
 	read port_min port_max < /proc/sys/net/ipv4/ip_local_port_range
@@ -727,6 +739,7 @@ MF_LOOK_SIMPLE(){
 	current_algorithm=$(sysctl -n net.ipv4.tcp_congestion_control)
 	echo "当前TCP控制算法: ${current_algorithm}"
 	MF_CONF_NET_MBPS
+	MF_TCP_RERADIO
 
 	sockstat=$(cat /proc/net/sockstat)
 	# 提取关键信息
