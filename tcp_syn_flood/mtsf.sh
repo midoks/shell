@@ -652,7 +652,7 @@ MF_TCP_RERADIO(){
 		else
 			status="极差*必须排查（防火墙、带宽、路由）"
 		fi
-	    echo "当前TCP重传率: ${retrans_rate}% | 发送段: $sent | 重传: $retrans - ${status}"
+	    echo "当前TCP总重传率: ${retrans_rate}% | 发送段: $sent | 重传: $retrans - ${status}"
 	else
 	    echo "当前TCP重传率: 未发送数据，无法计算重传率。"
 	fi
@@ -685,7 +685,7 @@ MF_TCP_RERADIO2(){
 		else
 			status="极差*必须排查（防火墙、带宽、路由）"
 		fi
-	    echo "当前TCP重传率: ${retrans_rate}% | 发送段: ${delta_retrans}/s | 重传: ${delta_sent}/s - ${status}"
+	    echo "当前TCP重传率(每秒): ${retrans_rate}% | 发送段: ${delta_retrans}/s | 重传: ${delta_sent}/s - ${status}"
 	else
 	    echo "当前TCP重传率: 未发送数据，无法计算重传率。"
 	fi
