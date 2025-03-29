@@ -641,9 +641,9 @@ MF_TCP_RERADIO(){
 	retrans=$(netstat -s | awk '/segments retransmitted/ {print $1}')
 	if [ "$sent" -gt 0 ]; then
         retrans_rate=$(echo "scale=4; $retrans / $sent * 100" | bc)
-	    echo "TCP重传率: ${retrans_rate}%"
+	    echo "当前TCP重传率: ${retrans_rate}%"
 	else
-	    echo "TCP重传率: 未发送数据，无法计算重传率。"
+	    echo "当前TCP重传率: 未发送数据，无法计算重传率。"
 	fi
 }
 
@@ -738,8 +738,9 @@ MF_LOOK_SIMPLE(){
 
 	current_algorithm=$(sysctl -n net.ipv4.tcp_congestion_control)
 	echo "当前TCP控制算法: ${current_algorithm}"
-	MF_CONF_NET_MBPS
 	MF_TCP_RERADIO
+	MF_CONF_NET_MBPS
+	
 
 	sockstat=$(cat /proc/net/sockstat)
 	# 提取关键信息
