@@ -641,9 +641,9 @@ MF_TCP_RERADIO(){
 	retrans=$(netstat -s | awk '/segments retransmitted/ {print $1}')
 	if [ "$sent" -gt 0 ]; then
     retrans_rate=$(echo "scale=4; $retrans / $sent * 100" | bc)
-	    echo "TCP Retransmission Rate: ${retrans_rate}%"
+	    echo "TCP重传率: ${retrans_rate}%"
 	else
-	    echo "No data sent, cannot calculate retransmission rate."
+	    echo "TCP重传率: 未发送数据，无法计算重传率。"
 	fi
 }
 
