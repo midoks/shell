@@ -691,6 +691,47 @@ MF_TCP_RERADIO2(){
 	fi
 }
 
+# TCP重传率3
+MF_TCP_RERADIO3(){
+	prev_sent=0
+	prev_retrans=0
+
+	while true; do
+	    # 获取当前值
+	    sent=$(netstat -s | awk '/segments sent out/ {print $1}')
+	    retrans=$(netstat -s | awk '/segments retransmitted/ {print $1}')
+
+	    # 计算增量
+	    delta_sent=$((sent - prev_sent))
+	    delta_retrans=$((retrans - prev_retrans))
+
+	    # 计算重传率
+	    if [ "$sent" -gt 0 ]; then
+	        retrans_rate=$(echo "scale=4; $delta_retrans / $delta_sent * 100" | bc)
+	        status="无需优化"
+
+	        if (( $(echo "$retrans_rate < 0.1" | bc -l) )); then
+			    status="优秀*无需优化"
+			elif (( $(echo "$retrans_rate > 0.1" | bc -l) )) && (( $(echo "$retrans_rate < 1" | bc -l) )); then
+				status="正常*偶尔波动，可接受"
+			elif (( $(echo "$retrans_rate > 1" | bc -l) )) && (( $(echo "$retrans_rate < 5" | bc -l) )); then
+				status="较差*检查丢包、拥塞"
+			else
+				status="极差*必须排查（防火墙、带宽、路由）"
+			fi
+		    echo "当前TCP重传率(每秒): ${retrans_rate}% | 发送段: ${delta_retrans}/s | 重传: ${delta_sent}/s - ${status}"
+		else
+		    echo "当前TCP重传率: 未发送数据，无法计算重传率。"
+		fi
+
+	    # 更新前一次的值
+	    prev_sent=$sent
+	    prev_retrans=$retrans
+
+	    sleep 1  # 每秒采样一次
+	done
+}
+
 MF_TCP_INFO(){
 	# 获取本地端口范围
 	read port_min port_max < /proc/sys/net/ipv4/ip_local_port_range
@@ -949,6 +990,7 @@ MF_HELP(){
 	echo "mtsf l3               -> 查看ss -s状态"
 	echo "mtsf l4               -> 监控网络综合信息【没有带宽信息】"
 	echo "mtsf l5               -> 监控网络综合信息【有带宽信息】"
+	echo "mtsf l6               -> 监控TCP重传率"
 	echo "mtsf info|i           -> 查看网络综合信息"
 	echo "mtsf update|u         -> 更新脚本"
 	echo "mtsf opt|o            -> 简单优化系统配置"
@@ -995,6 +1037,7 @@ case "$1" in
 	"l4") MF_LOOK4 ;;
 	"l4") MF_LOOK4 ;;
 	"l5") MF_LOOK5 ;;
+	"l6") MF_TCP_RERADIO3 ;;
 	"info" | "i") MF_TCP_INFO;;
 	"update" | "u") MF_UPDATE;;
 	"opt" | "o") MF_CONF_OPT;;
