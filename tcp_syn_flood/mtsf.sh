@@ -641,7 +641,18 @@ MF_TCP_RERADIO(){
 	retrans=$(netstat -s | awk '/segments retransmitted/ {print $1}')
 	if [ "$sent" -gt 0 ]; then
         retrans_rate=$(echo "scale=4; $retrans / $sent * 100" | bc)
-	    echo "当前TCP重传率: ${retrans_rate}% | 发送段: $sent | 重传: $retrans"
+        status="无需优化"
+
+        if (( $(echo "$retrans_rate < 0.1" | bc -l) )); then
+		    status="优秀*无需优化"
+		elif (( $(echo "$retrans_rate > 0.1" | bc -l) )) && (( $(echo "$retrans_rate < 1" | bc -l) )); then
+			status="正常*偶尔波动，可接受"
+		elif (( $(echo "$retrans_rate > 1" | bc -l) )) && (( $(echo "$retrans_rate < 5" | bc -l) )); then
+			status="较差*检查丢包、拥塞"
+		else
+			status="极差*必须排查（防火墙、带宽、路由）"
+		fi
+	    echo "当前TCP重传率: ${retrans_rate}% | 发送段: $sent | 重传: $retrans - ${status}"
 	else
 	    echo "当前TCP重传率: 未发送数据，无法计算重传率。"
 	fi
