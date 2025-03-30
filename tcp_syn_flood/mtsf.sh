@@ -546,7 +546,7 @@ MF_CONF_OPT(){
 		echo "net.ipv4.tcp_max_syn_backlog exist!"
 	fi
 
-	if [ -f /proc/sys/net/core/netdev_max_backlog ];then
+	if [[ -f /proc/sys/net/core/netdev_max_backlog ]];then
 		FIND_NC_netdev_max_backlog=`cat /etc/sysctl.conf | grep net.core.netdev_max_backlog`
 		if [ "$FIND_NC_netdev_max_backlog" == "" ];then
 			echo 65535 > /proc/sys/net/core/netdev_max_backlog
@@ -555,7 +555,7 @@ MF_CONF_OPT(){
 			echo "net.ipv4.netdev_max_backlog exist!"
 		fi
 	fi
-	
+
 
 	FIND_NC_somaxconn=`cat /etc/sysctl.conf | grep net.core.somaxconn`
 	if [ "$FIND_NC_somaxconn" == "" ];then
