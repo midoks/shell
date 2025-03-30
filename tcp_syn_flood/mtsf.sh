@@ -413,14 +413,6 @@ MF_CONF_OPT(){
 		echo "net.ipv4.tcp_wmem exist!"
 	fi
 
-	FIND_NI_tcp_fastopen=`cat /etc/sysctl.conf | grep net.ipv4.tcp_fastopen`
-	if [ "$FIND_NI_tcp_fastopen" == "" ];then
-		echo "3" > /proc/sys/net/ipv4/tcp_fastopen
-		echo "net.ipv4.tcp_fastopen = 3" >> /etc/sysctl.conf
-	else
-		echo "net.ipv4.tcp_fastopen exist!"
-	fi
-
 	# 启用TCP窗口缩放和选择性确认
 	echo "启用TCP窗口缩放和选择性确认..."
 	FIND_NI_tcp_window_scaling=`cat /etc/sysctl.conf | grep net.ipv4.tcp_window_scaling`
@@ -431,12 +423,28 @@ MF_CONF_OPT(){
 		echo "net.ipv4.tcp_window_scaling exist!"
 	fi
 
+	FIND_NI_tcp_fastopen=`cat /etc/sysctl.conf | grep net.ipv4.tcp_fastopen`
+	if [ "$FIND_NI_tcp_fastopen" == "" ];then
+		echo "3" > /proc/sys/net/ipv4/tcp_fastopen
+		echo "net.ipv4.tcp_fastopen = 3" >> /etc/sysctl.conf
+	else
+		echo "net.ipv4.tcp_fastopen exist!"
+	fi
+
 	FIND_NI_tcp_sack=`cat /etc/sysctl.conf | grep net.ipv4.tcp_sack`
 	if [ "$FIND_NI_tcp_sack" == "" ];then
 		echo 1 > /proc/sys/net/ipv4/tcp_sack
 		echo "net.ipv4.tcp_sack = 1" >> /etc/sysctl.conf
 	else
 		echo "net.ipv4.tcp_sack exist!"
+	fi
+
+	FIND_NI_tcp_fack=`cat /etc/sysctl.conf | grep net.ipv4.tcp_fack`
+	if [ "$FIND_NI_tcp_fack" == "" ];then
+		echo 1 > /proc/sys/net/ipv4/tcp_fack
+		echo "net.ipv4.tcp_fack = 1" >> /etc/sysctl.conf
+	else
+		echo "net.ipv4.tcp_fack exist!"
 	fi
 
 	FIND_NI_tcp_dsack=`cat /etc/sysctl.conf | grep net.ipv4.tcp_dsack`
