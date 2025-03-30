@@ -551,9 +551,9 @@ MF_CONF_OPT(){
 		FIND_NC_netdev_max_backlog=`cat /etc/sysctl.conf | grep net.core.netdev_max_backlog`
 		if [ "$FIND_NC_netdev_max_backlog" == "" ];then
 			echo 65535 > /proc/sys/net/core/netdev_max_backlog
-			echo "net.ipv4.netdev_max_backlog = 65535" >> /etc/sysctl.conf
+			echo "net.core.netdev_max_backlog = 65535" >> /etc/sysctl.conf
 		else
-			echo "net.ipv4.netdev_max_backlog exist!"
+			echo "net.core.netdev_max_backlog exist!"
 		fi
 	fi
 
