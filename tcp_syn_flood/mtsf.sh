@@ -571,15 +571,15 @@ MF_CONF_OPT(){
 
 	FIND_NI_tcp_retries2=`cat /etc/sysctl.conf | grep net.ipv4.tcp_retries2`
 	if [ "$FIND_NI_tcp_retries2" == "" ];then
-		echo 15 > /proc/sys/net/ipv4/tcp_retries2
-		echo "net.ipv4.tcp_retries2 = 1" >> /etc/sysctl.conf
+		echo 8 > /proc/sys/net/ipv4/tcp_retries2
+		echo "net.ipv4.tcp_retries2 = 8" >> /etc/sysctl.conf
 	else
 		echo "net.ipv4.tcp_retries2 exist!"
 	fi
 
 	FIND_NI_tcp_early_retrans=`cat /etc/sysctl.conf | grep net.ipv4.tcp_early_retrans`
 	if [ "$FIND_NI_tcp_early_retrans" == "" ];then
-		echo 15 > /proc/sys/net/ipv4/tcp_early_retrans
+		echo 1 > /proc/sys/net/ipv4/tcp_early_retrans
 		echo "net.ipv4.tcp_early_retrans = 1" >> /etc/sysctl.conf
 	else
 		echo "net.ipv4.tcp_early_retrans exist!"
