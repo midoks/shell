@@ -554,7 +554,8 @@ MF_CONF_OPT(){
 		else
 			echo "net.ipv4.netdev_max_backlog exist!"
 		fi
-	if
+	fi
+	
 
 	FIND_NC_somaxconn=`cat /etc/sysctl.conf | grep net.core.somaxconn`
 	if [ "$FIND_NC_somaxconn" == "" ];then
