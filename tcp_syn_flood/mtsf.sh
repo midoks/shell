@@ -458,6 +458,7 @@ MF_CONF_OPT(){
 	# MTU不匹配会导致分片丢包
 	# 1 - 仅在检测到问题时启用探测
 	# 2 - 始终启用探测（激进模式，可能增加开销）
+	# sysctl -w net.ipv4.tcp_mtu_probing=2
 	FIND_NI_tcp_mtu_probing=`cat /etc/sysctl.conf | grep net.ipv4.tcp_mtu_probing`
 
 	if [ "$FIND_NI_tcp_mtu_probing" == "" ];then
