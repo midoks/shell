@@ -560,7 +560,22 @@ MF_CONF_OPT(){
 		echo "net.ipv4.tcp_keepalive_probes exist!"
 	fi
 
-	
+
+	FIND_NI_tcp_retries1=`cat /etc/sysctl.conf | grep net.ipv4.tcp_retries1`
+	if [ "$FIND_NI_tcp_retries1" == "" ];then
+		echo 3 > /proc/sys/net/ipv4/tcp_retries1
+		echo "net.ipv4.tcp_retries1 = 1" >> /etc/sysctl.conf
+	else
+		echo "net.ipv4.tcp_retries1 exist!"
+	fi
+
+	FIND_NI_tcp_retries2=`cat /etc/sysctl.conf | grep net.ipv4.tcp_retries2`
+	if [ "$FIND_NI_tcp_retries2" == "" ];then
+		echo 15 > /proc/sys/net/ipv4/tcp_retries2
+		echo "net.ipv4.tcp_retries2 = 1" >> /etc/sysctl.conf
+	else
+		echo "net.ipv4.tcp_retries2 exist!"
+	fi
 
 	FIND_NI_tcp_early_retrans=`cat /etc/sysctl.conf | grep net.ipv4.tcp_early_retrans`
 	if [ "$FIND_NI_tcp_early_retrans" == "" ];then
