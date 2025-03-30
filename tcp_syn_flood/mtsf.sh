@@ -461,8 +461,8 @@ MF_CONF_OPT(){
 	# sysctl -w net.ipv4.tcp_mtu_probing=2
 	FIND_NI_tcp_mtu_probing=`cat /etc/sysctl.conf | grep net.ipv4.tcp_mtu_probing`
 	if [ "$FIND_NI_tcp_mtu_probing" == "" ];then
-		echo 2 > /proc/sys/net/ipv4/tcp_mtu_probing
-		echo "net.ipv4.tcp_mtu_probing = 2" >> /etc/sysctl.conf
+		echo 1 > /proc/sys/net/ipv4/tcp_mtu_probing
+		echo "net.ipv4.tcp_mtu_probing = 1" >> /etc/sysctl.conf
 	else
 		echo "net.ipv4.tcp_mtu_probing exist!"
 	fi
