@@ -506,6 +506,16 @@ MF_CONF_OPT(){
 		echo "net.ipv4.tcp_max_tw_buckets exist!"
 	fi
 
+	# 启用SYN Cookies
+	echo "启用SYN Cookies..."
+	FIND_NI_tcp_syncookies=`cat /etc/sysctl.conf | grep net.ipv4.tcp_syncookies`
+	if [ "$FIND_NI_tcp_syncookies" == "" ];then
+		echo 1 > /proc/sys/net/ipv4/tcp_syncookies
+		echo "net.ipv4.tcp_syncookies = 1" >> /etc/sysctl.conf
+	else
+		echo "net.ipv4.tcp_syncookies exist!"
+	fi
+
 	# 增加连接队列长度
 	echo "增加连接队列长度..."
 	FIND_NI_tcp_max_syn_backlog=`cat /etc/sysctl.conf | grep net.ipv4.tcp_max_syn_backlog`
@@ -518,7 +528,7 @@ MF_CONF_OPT(){
 
 	FIND_NC_netdev_max_backlog=`cat /etc/sysctl.conf | grep net.core.netdev_max_backlog`
 	if [ "$FIND_NC_netdev_max_backlog" == "" ];then
-		echo 65535 > /proc/sys/net/ipv4/netdev_max_backlog
+		echo 65535 > /proc/sys/net/core/netdev_max_backlog
 		echo "net.ipv4.netdev_max_backlog = 65535" >> /etc/sysctl.conf
 	else
 		echo "net.ipv4.netdev_max_backlog exist!"
@@ -530,16 +540,6 @@ MF_CONF_OPT(){
 		echo "net.core.somaxconn = 65535" >> /etc/sysctl.conf
 	else
 		echo "net.core.somaxconn exist!"
-	fi
-
-	# 启用SYN Cookies
-	echo "启用SYN Cookies..."
-	FIND_NI_tcp_syncookies=`cat /etc/sysctl.conf | grep net.ipv4.tcp_syncookies`
-	if [ "$FIND_NI_tcp_syncookies" == "" ];then
-		echo 1 > /proc/sys/net/ipv4/tcp_syncookies
-		echo "net.ipv4.tcp_syncookies = 1" >> /etc/sysctl.conf
-	else
-		echo "net.ipv4.tcp_syncookies exist!"
 	fi
 
 	# 优化Keepalive参数
