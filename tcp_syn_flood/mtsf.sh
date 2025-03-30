@@ -560,6 +560,24 @@ MF_CONF_OPT(){
 		echo "net.ipv4.tcp_keepalive_probes exist!"
 	fi
 
+	
+
+	FIND_NI_tcp_early_retrans=`cat /etc/sysctl.conf | grep net.ipv4.tcp_early_retrans`
+	if [ "$FIND_NI_tcp_early_retrans" == "" ];then
+		echo 15 > /proc/sys/net/ipv4/tcp_early_retrans
+		echo "net.ipv4.tcp_early_retrans = 1" >> /etc/sysctl.conf
+	else
+		echo "net.ipv4.tcp_early_retrans exist!"
+	fi
+
+	FIND_NI_tcp_recovery=`cat /etc/sysctl.conf | grep net.ipv4.tcp_recovery`
+	if [ "$FIND_NI_tcp_recovery" == "" ];then
+		echo 1 > /proc/sys/net/ipv4/tcp_recovery
+		echo "net.ipv4.tcp_recovery = 1" >> /etc/sysctl.conf
+	else
+		echo "net.ipv4.tcp_recovery exist!"
+	fi
+
 	echo "===== TCP参数优化完成 ====="
 
 	FIND_NC_default_qdisc=`cat /etc/sysctl.conf | grep net.core.default_qdisc`
