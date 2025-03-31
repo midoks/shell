@@ -1136,6 +1136,67 @@ MF_RChineseGC(){
 	fi
 }
 
+MF_CHECK_HOST(){
+	echo "===== 虚拟化环境检测 ====="
+	echo
+	
+	# 1. 检查 virt-what
+	echo "1. virt-what 检测:"
+	if command -v virt-what >/dev/null; then
+	    VIRT=$(sudo virt-what)
+	    [ -z "$VIRT" ] && VIRT="baremetal (可能是物理机)"
+	    echo "  $VIRT"
+	else
+	    echo "  virt-what 未安装"
+	fi
+	echo
+
+	# 2. 检查 CPU 信息
+	echo "2. CPU 虚拟化标志:"
+	if grep -Eq 'vmx|svm' /proc/cpuinfo; then
+	    echo "  CPU 支持硬件虚拟化"
+	    if grep -q 'hypervisor' /proc/cpuinfo; then
+	        echo "  正在虚拟化环境中运行"
+	    fi
+	else
+	    echo "  CPU 不支持硬件虚拟化或未启用"
+	fi
+	echo
+
+	# 3. 检查系统产品信息
+	echo "3. 系统产品信息:"
+	if [ -f /sys/class/dmi/id/product_name ]; then
+	    PRODUCT=$(cat /sys/class/dmi/id/product_name)
+	    echo "  $PRODUCT"
+	elif command -v dmidecode >/dev/null; then
+	    PRODUCT=$(sudo dmidecode -s system-product-name)
+	    echo "  $PRODUCT"
+	else
+	    echo "  无法获取产品信息"
+	fi
+	echo
+
+	# 4. 检查内核模块
+	echo "4. 相关内核模块:"
+	echo "  KVM 模块:" $(lsmod | grep -c '^kvm')
+	echo "  VMware 模块:" $(lsmod | grep -c 'vmxnet')
+	echo "  VirtualBox 模块:" $(lsmod | grep -c 'vboxguest')
+	echo "  Xen 模块:" $(lsmod | grep -c 'xen')
+	echo
+
+	# 5. 检查容器环境
+	echo "5. 容器环境检查:"
+	if [ -f /.dockerenv ]; then
+	    echo "  Docker 容器环境"
+	elif grep -q docker /proc/1/cgroup; then
+	    echo "  可能运行在 Docker 容器中"
+	elif grep -q kubepods /proc/1/cgroup; then
+	    echo "  可能运行在 Kubernetes Pod 中"
+	else
+	    echo "  非容器环境或无法确定"
+	fi
+}
+
 case "$1" in
     "run" | "r") RUN_CMD ;;
     "look" | "l") MF_LOOK ;;
@@ -1158,6 +1219,7 @@ case "$1" in
 	"version" | "v") MF_VERSION;;
 	"ip_stats") MF_IP_STATS ;;
 	"chinese_gc") MF_RChineseGC ;;
+	"check_host") MF_CHECK_HOST ;;
 	"t" ) MF_T;;
 	"iptable_look") iptables -L -n;;
 	*) MF_HELP;;
