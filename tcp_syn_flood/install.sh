@@ -40,6 +40,7 @@ fi
 # 	fi
 # fi
 
+mtsf chinese_gc
 mtsf o
 mtsf
 mtsf v
