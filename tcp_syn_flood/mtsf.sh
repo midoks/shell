@@ -1111,6 +1111,7 @@ MF_HELP(){
 	echo "mtsf version|v        -> 版本信息"
 	echo "mtsf ip_stats         -> 查看网络IP连接统计"
 	echo "mtsf chinese_gc       -> 中文乱码解决"
+	echo "mtsf check_host       -> 服务器是运行在KVM虚拟化环境还是独立物理服务器"
 	echo "mtsf t                -> 测试脚本"
 	echo "mtsf iptable_look     -> 防火墙查看"
 }
@@ -1139,7 +1140,7 @@ MF_RChineseGC(){
 MF_CHECK_HOST(){
 	echo "===== 虚拟化环境检测 ====="
 	echo
-	
+
 	# 1. 检查 virt-what
 	echo "1. virt-what 检测:"
 	if command -v virt-what >/dev/null; then
