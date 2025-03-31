@@ -517,7 +517,6 @@ MF_CONF_OPT(){
 		fi
 	fi
 
-	# cat /proc/sys/net/ipv4/tcp_syn_retries
 
 	FIND_NI_tcp_max_tw_buckets=`cat /etc/sysctl.conf | grep net.ipv4.tcp_max_tw_buckets`
 	if [ "$FIND_NI_tcp_max_tw_buckets" == "" ];then
@@ -607,6 +606,15 @@ MF_CONF_OPT(){
 		echo "net.ipv4.tcp_retries2 = 8" >> /etc/sysctl.conf
 	else
 		echo "net.ipv4.tcp_retries2 exist!"
+	fi
+
+	# cat /proc/sys/net/ipv4/tcp_syn_retries
+	FIND_NI_tcp_syn_retries=`cat /etc/sysctl.conf | grep net.ipv4.tcp_syn_retries`
+	if [ "$FIND_NI_tcp_syn_retries" == "" ];then
+		echo 3 > /proc/sys/net/ipv4/tcp_syn_retries
+		echo "net.ipv4.tcp_syn_retries = 3" >> /etc/sysctl.conf
+	else
+		echo "net.ipv4.tcp_syn_retries exist!"
 	fi
 
 	FIND_NI_tcp_early_retrans=`cat /etc/sysctl.conf | grep net.ipv4.tcp_early_retrans`
