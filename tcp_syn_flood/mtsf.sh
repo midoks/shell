@@ -507,6 +507,7 @@ MF_CONF_OPT(){
 	fi
 
 	# 开启TCP连接中TIME-WAIT【sockets】的快速回收
+	# 确保不启用 tcp_tw_recycle（NAT 环境下可能导致问题）
 	if [ -d /proc/sys/net/ipv4/tcp_tw_recycle ];then
 		FIND_NI_tcp_tw_recycle=`cat /etc/sysctl.conf | grep net.ipv4.tcp_tw_recycle`
 		if [ "$FIND_NI_tcp_tw_recycle" == "" ];then
