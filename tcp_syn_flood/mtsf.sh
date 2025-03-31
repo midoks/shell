@@ -541,8 +541,8 @@ MF_CONF_OPT(){
 	echo "增加连接队列长度..."
 	FIND_NI_tcp_max_syn_backlog=`cat /etc/sysctl.conf | grep net.ipv4.tcp_max_syn_backlog`
 	if [ "$FIND_NI_tcp_max_syn_backlog" == "" ];then
-		echo 65535 > /proc/sys/net/ipv4/tcp_max_syn_backlog
-		echo "net.ipv4.tcp_max_syn_backlog = 65535" >> /etc/sysctl.conf
+		echo 8192 > /proc/sys/net/ipv4/tcp_max_syn_backlog
+		echo "net.ipv4.tcp_max_syn_backlog = 8192" >> /etc/sysctl.conf
 	else
 		echo "net.ipv4.tcp_max_syn_backlog exist!"
 	fi
@@ -550,8 +550,8 @@ MF_CONF_OPT(){
 	if [[ -f /proc/sys/net/core/netdev_max_backlog ]];then
 		FIND_NC_netdev_max_backlog=`cat /etc/sysctl.conf | grep net.core.netdev_max_backlog`
 		if [ "$FIND_NC_netdev_max_backlog" == "" ];then
-			echo 65535 > /proc/sys/net/core/netdev_max_backlog
-			echo "net.core.netdev_max_backlog = 65535" >> /etc/sysctl.conf
+			echo 50000 > /proc/sys/net/core/netdev_max_backlog
+			echo "net.core.netdev_max_backlog = 50000" >> /etc/sysctl.conf
 		else
 			echo "net.core.netdev_max_backlog exist!"
 		fi
@@ -560,8 +560,8 @@ MF_CONF_OPT(){
 
 	FIND_NC_somaxconn=`cat /etc/sysctl.conf | grep net.core.somaxconn`
 	if [ "$FIND_NC_somaxconn" == "" ];then
-		echo 65535 > /proc/sys/net/core/somaxconn
-		echo "net.core.somaxconn = 65535" >> /etc/sysctl.conf
+		echo 32768 > /proc/sys/net/core/somaxconn
+		echo "net.core.somaxconn = 32768" >> /etc/sysctl.conf
 	else
 		echo "net.core.somaxconn exist!"
 	fi
@@ -673,6 +673,14 @@ MF_CONF_OPT(){
 		echo "vm.swappiness=5" >> /etc/sysctl.conf
 	else
 		echo "vm.swappiness exist"
+	fi
+
+	FIND_VM_vfs_cache_pressure=`cat /etc/sysctl.conf | grep vm.vfs_cache_pressure`
+	if [ "$FIND_VM_vfs_cache_pressure" == "" ];then
+		# cat /proc/sys/vm/swappiness
+		echo "vm.vfs_cache_pressure=5" >> /etc/sysctl.conf
+	else
+		echo "vm.vfs_cache_pressure exist"
 	fi
 
 	echo "===== 磁盘IO配置 ====="
