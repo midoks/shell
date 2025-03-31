@@ -859,6 +859,10 @@ MF_TCP_INFO(){
 	max_connections=$((port_count < fd_limit ? port_count : fd_limit))
 
 	# 输出结果
+	echo "物理CPU数量: $(lscpu | grep 'Socket(s)' | awk '{print $2}')"
+	echo "每个CPU的核心数: $(lscpu | grep 'Core(s) per socket' | awk '{print $4}')"
+	echo "逻辑CPU数量: $(grep -c '^processor' /proc/cpuinfo)"
+
 	echo "本地端口范围: $port_min - $port_max (可用端口: $port_count)"
 	echo "文件描述符限制: $fd_limit"
 	echo "TCP内存限制: $tcp_mem_max_mb MB"
