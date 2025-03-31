@@ -510,7 +510,7 @@ MF_CONF_OPT(){
 	if [ -d /proc/sys/net/ipv4/tcp_tw_recycle ];then
 		FIND_NI_tcp_tw_recycle=`cat /etc/sysctl.conf | grep net.ipv4.tcp_tw_recycle`
 		if [ "$FIND_NI_tcp_tw_recycle" == "" ];then
-			echo 1 > /proc/sys/net/ipv4/tcp_tw_recycle
+			echo 0 > /proc/sys/net/ipv4/tcp_tw_recycle
 			echo "net.ipv4.tcp_tw_recycle = 1" >> /etc/sysctl.conf
 		else
 			echo "net.ipv4.tcp_tw_recycle exist!"
