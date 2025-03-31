@@ -645,7 +645,7 @@ MF_CONF_OPT(){
 	FIND_VM_dirty_ratio=`cat /etc/sysctl.conf | grep vm.dirty_ratio`
 	if [ "$FIND_VM_dirty_ratio" == "" ];then
 		# cat /proc/sys/vm/dirty_ratio
-		echo "vm.ipv4.dirty_ratio=10" >> /etc/sysctl.conf
+		echo "vm.dirty_ratio=10" >> /etc/sysctl.conf
 	else
 		echo "vm.dirty_ratio exist"
 	fi
