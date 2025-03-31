@@ -641,6 +641,32 @@ MF_CONF_OPT(){
 		echo "net.ipv4.tcp_congestion_control exist"
 	fi
 	echo "===== BBR配置完成 ====="
+
+	FIND_VM_dirty_ratio=`cat /etc/sysctl.conf | grep vm.dirty_ratio`
+	if [ "$FIND_VM_dirty_ratio" == "" ];then
+		# cat /proc/sys/vm/dirty_ratio
+		echo "vm.ipv4.dirty_ratio=10" >> /etc/sysctl.conf
+	else
+		echo "vm.dirty_ratio exist"
+	fi
+
+	FIND_VM_dirty_background_ratio=`cat /etc/sysctl.conf | grep vm.dirty_background_ratio`
+	if [ "$FIND_VM_dirty_background_ratio" == "" ];then
+		# cat /proc/sys/vm/dirty_background_ratio
+		echo "vm.dirty_background_ratio=5" >> /etc/sysctl.conf
+	else
+		echo "vm.dirty_background_ratio exist"
+	fi
+
+	FIND_VM_swappiness=`cat /etc/sysctl.conf | grep vm.swappiness`
+	if [ "$FIND_VM_swappiness" == "" ];then
+		# cat /proc/sys/vm/swappiness
+		echo "vm.swappiness=5" >> /etc/sysctl.conf
+	else
+		echo "vm.swappiness exist"
+	fi
+
+	echo "===== 磁盘IO配置 ====="
 	sysctl -p
 
 
