@@ -537,6 +537,14 @@ MF_CONF_OPT(){
 		echo "net.ipv4.tcp_syncookies exist!"
 	fi
 
+	FIND_NI_tcp_synack_retries=`cat /etc/sysctl.conf | grep net.ipv4.tcp_synack_retries`
+	if [ "$FIND_NI_tcp_synack_retries" == "" ];then
+		echo 1 > /proc/sys/net/ipv4/tcp_synack_retries
+		echo "net.ipv4.tcp_synack_retries = 1" >> /etc/sysctl.conf
+	else
+		echo "net.ipv4.tcp_synack_retries exist!"
+	fi
+
 	# 增加连接队列长度
 	echo "增加连接队列长度..."
 	FIND_NI_tcp_max_syn_backlog=`cat /etc/sysctl.conf | grep net.ipv4.tcp_max_syn_backlog`
