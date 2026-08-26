@@ -678,7 +678,7 @@ MF_CONF_OPT(){
 	FIND_VM_swappiness=`cat /etc/sysctl.conf | grep vm.swappiness`
 	if [ "$FIND_VM_swappiness" == "" ];then
 		# cat /proc/sys/vm/swappiness
-		echo "vm.swappiness=5" >> /etc/sysctl.conf
+		echo "vm.swappiness=10" >> /etc/sysctl.conf
 	else
 		echo "vm.swappiness exist"
 	fi
